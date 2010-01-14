@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+  
+  <!-- Servlets -->
+  <servlet>
+    <servlet-name>chartServlet</servlet-name>
+    <servlet-class>gwt.test.server.ChartingServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet>
+  	<servlet-name>jFreeChart</servlet-name>
+  	<servlet-class>gwt.test.servlet.JFreeChartServlet</servlet-class>
+  </servlet> 
+  
+  <servlet-mapping>
+    <servlet-name>chartServlet</servlet-name>
+    <url-pattern>/gwtcharting/chart</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>jFreeChart</servlet-name>
+    <url-pattern>/gwtcharting/jFreeChart</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Default page to serve -->
+  <welcome-file-list>
+    <welcome-file>GWTCharting.html</welcome-file>
+  </welcome-file-list>
+
+</web-app>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence>
+ <persistence-unit name="jpa">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>scala.entities.StockQuote</class>
+    <class>scala.entities.Symbol</class>    
+    <properties>
+        <property name="hibernate.connection.url" value="jdbc:postgresql:sven"/>
+        <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+        <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+        <property name="hibernate.connection.password" value=""/>
+        <property name="hibernate.connection.username" value="sven"/>
+        <property name="hibernate.hbm2ddl.auto" value="update"/>
+        <property name="hibernate.show_sql" value="true"/>        
+        <property name="hibernate.format_sql" value="true"/>        
+    </properties>
+  </persistence-unit> 
+</persistence>
