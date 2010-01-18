@@ -10,11 +10,11 @@ public class StockQuote implements Serializable {
 	private long id;
 	private String currency;
 	private Date time;
-	private long last;
-	private long dayHigh;
-	private long dayLow;
-	private long volume;
-	private long adjLast;
+	private String last;
+	private String dayHigh;
+	private String dayLow;
+	private String volume;
+	private String adjLast;
 	private String symbol;
 	private String name;	
 
@@ -42,46 +42,6 @@ public class StockQuote implements Serializable {
 		this.time = time;
 	}
 
-	public long getLast() {
-		return last;
-	}
-
-	public void setLast(long last) {
-		this.last = last;
-	}
-
-	public long getDayHigh() {
-		return dayHigh;
-	}
-
-	public void setDayHigh(long dayHigh) {
-		this.dayHigh = dayHigh;
-	}
-
-	public long getDayLow() {
-		return dayLow;
-	}
-
-	public void setDayLow(long dayLow) {
-		this.dayLow = dayLow;
-	}
-
-	public long getVolume() {
-		return volume;
-	}
-
-	public void setVolume(long volume) {
-		this.volume = volume;
-	}
-
-	public long getAdjLast() {
-		return adjLast;
-	}
-
-	public void setAdjLast(long adjLast) {
-		this.adjLast = adjLast;
-	}
-
 	public String getSymbol() {
 		return symbol;
 	}
@@ -96,5 +56,49 @@ public class StockQuote implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getLast() {
+		return last;
+	}
+
+	public void setLast(String last) {
+		this.last = last;
+	}
+
+	public String getDayHigh() {
+		return dayHigh;
+	}
+
+	public void setDayHigh(String dayHigh) {
+		this.dayHigh = dayHigh;
+	}
+
+	public String getDayLow() {
+		return dayLow;
+	}
+
+	public void setDayLow(String dayLow) {
+		this.dayLow = dayLow;
+	}
+
+	public String getVolume() {
+		return volume;
+	}
+
+	public void setVolume(String volume) {
+		this.volume = volume;
+	}
+
+	public String getAdjLast() {
+		return adjLast;
+	}
+
+	public void setAdjLast(String adjLast) {
+		this.adjLast = adjLast;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }

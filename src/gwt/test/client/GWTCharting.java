@@ -82,14 +82,14 @@ public class GWTCharting implements EntryPoint {
 
 		StockQuote sq = new StockQuote();
 		sq.setTime(new Date());
-		sq.setAdjLast(1000);
+		sq.setAdjLast("-");
 		sq.setCurrency("USD");
-		sq.setDayHigh(1050);
-		sq.setDayLow(950);
-		sq.setLast(1000);
-		sq.setName("General Electric");
-		sq.setSymbol("GE");
-		sq.setVolume(10000000);
+		sq.setDayHigh("-");
+		sq.setDayLow("-");
+		sq.setLast("-");
+		sq.setName("-");
+		sq.setSymbol("-");
+		sq.setVolume("-");
 
 		final Date myDate = sq.getTime() == null ? new Date() : sq.getTime();
 		final Label date = new Label("Last Quote: " + myDate.toString());
@@ -165,6 +165,25 @@ public class GWTCharting implements EntryPoint {
 
 			private void sendNameToServer() {
 				showButton.setEnabled(false);
+				chartingService.getLastStockQuote(symbol.getText(), new AsyncCallback<StockQuote>() {
+					public void onFailure(Throwable caught) {
+							// Show the RPC error message to the user
+							dialogBox.setText("Remote Procedure Call - Failure");
+							serverResponseLabel.addStyleName("serverResponseLabelError");
+							serverResponseLabel.setHTML(SERVER_ERROR);
+							dialogBox.center();
+
+					}
+					public void onSuccess(StockQuote result) {
+						date.setText("Last Quote: " + result.getTime().toString());
+						dayHigh.setText("High: " + result.getDayHigh());
+						dayLow.setText("Low: " + result.getDayLow());
+						close.setText("Close: " + result.getLast());
+						volume.setText("Volume: " + result.getVolume());
+						
+					}
+					
+				});
 				chartingService.getChart(symbol.getText(), TimeFrame.All, new AsyncCallback<String>() {				
 					public void onFailure(Throwable caught) {
 						// Show the RPC error message to the user
