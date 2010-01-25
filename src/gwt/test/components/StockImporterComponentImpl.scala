@@ -7,11 +7,12 @@ import scala.io.Source;
 import gwt.test.entities._
 import gwt.test.annotations.Logging
 import gwt.test.annotations.LogLevel
+import gwt.test.services.ComponentContext
 
 trait StockImporterComponentImpl extends StockImporterComponent {
 	
 	@Logging  
-	class StockImporterImpl(val em: EntityManager) extends StockImporter with JpaUtil {  	 	  	  	  
+	class StockImporterImpl(val context: ComponentContext) extends StockImporter with JpaUtil {  	 	  	  	  
   
 	override def importStockHistory(symbol: String) : List[StockQuote] =  {	  
 	  var quotes =  List[StockQuote]();
@@ -46,6 +47,7 @@ trait StockImporterComponentImpl extends StockImporterComponent {
  
 	override def storeStockHistory(quotes: List[StockQuote]) : Long = {	  
 	  var sym: Symbol = null;
+	  val em = context.getEntityManager()
 	  if(!quotes.isEmpty) {
 	    sym = quotes.head.symbol;
 	    transaction(em, em => em.createQuery("delete from Symbol s where s.symbol = :symbol").setParameter("symbol", sym.symbol).executeUpdate);
@@ -69,6 +71,7 @@ trait StockImporterComponentImpl extends StockImporterComponent {
 	override def updateStockHistory(quotes: List[StockQuote]) : Long = {	  
 	  var newest: Calendar = null; 
 	  var quoteCount: Long = 0;
+	  val em = context.getEntityManager()
 	  if(!quotes.isEmpty) {
 	    var sym = quotes.head.symbol;
 	    transaction(em, em => {newest = em.createQuery("select max(sq.time) from StockQuote sq, Symbol s where sq.symbol = s and s.symbol = :symbol").setParameter("symbol",sym.symbol).getSingleResult.asInstanceOf[Calendar];	     

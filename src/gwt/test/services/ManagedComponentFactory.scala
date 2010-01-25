@@ -14,7 +14,7 @@ object ManagedComponentFactory {
       proxy).asInstanceOf[T]
 }
  
-class ManagedComponentProxy(val target: AnyRef, val entityManager: EntityManager) extends InvocationHandler {
+class ManagedComponentProxy(val target: AnyRef, val context: ComponentContext) extends InvocationHandler {
   def invoke(proxy: AnyRef, m: Method, args: Array[AnyRef]): AnyRef = invoke(Invocation(m, args, target))
   def invoke(invocation: Invocation): AnyRef = invocation.invoke
 }

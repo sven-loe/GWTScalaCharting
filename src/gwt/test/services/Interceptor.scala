@@ -6,6 +6,6 @@ trait Interceptor {
     invocation.target.getClass.isAnnotationPresent(annotationClass) ||
     false
   }
-
+ 
   def invoke(invocation: Invocation): AnyRef
 }

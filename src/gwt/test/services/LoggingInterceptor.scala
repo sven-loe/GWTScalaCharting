@@ -10,4 +10,4 @@ trait LoggingInterceptor extends Interceptor {
         println("=====> Exit: " + invocation.method.getName + " @ " + invocation.target.getClass.getName)
         result
       } else super.invoke(invocation)
-} 
+}  
