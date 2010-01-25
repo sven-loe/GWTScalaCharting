@@ -5,14 +5,14 @@ import gwt.test.client.ChartingService;
 import gwt.test.client.TimeFrame;
 import gwt.test.client.StockQuote;
 import gwt.test.servlet.JFreeChartServlet;
-import gwt.test.services.DbObject;
+import gwt.test.services.DbClass;
 import java.util.Date;
 
 
 class ChartingServiceImpl extends RemoteServiceServlet with ChartingService {
 
-  val stockImporter = DbObject.stockImporter
-  
+  val dbClass = new DbClass
+   
   def getChart(symbol: String, timeFrame: TimeFrame) : String = {    
     return "<img style=\"border: 0;\" src=\"./gwtcharting/jFreeChart?" + JFreeChartServlet.PARAMETER_SYMBOL + "=" + symbol + "&" + JFreeChartServlet.PARAMETER_TIMEFRAME + "=" + timeFrame.getTimeFrame() + "\" " + "/>";
   }

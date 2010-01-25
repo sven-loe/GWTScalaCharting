@@ -3,6 +3,7 @@ package gwt.test.services
 import java.lang.reflect.Method
 import java.lang.reflect.Proxy
 import java.lang.reflect.InvocationHandler
+import javax.persistence.EntityManager
 
 
 object ManagedComponentFactory {
@@ -12,8 +13,8 @@ object ManagedComponentFactory {
       Array(intf),
       proxy).asInstanceOf[T]
 }
-
-class ManagedComponentProxy(val target: AnyRef) extends InvocationHandler {
+ 
+class ManagedComponentProxy(val target: AnyRef, val entityManager: EntityManager) extends InvocationHandler {
   def invoke(proxy: AnyRef, m: Method, args: Array[AnyRef]): AnyRef = invoke(Invocation(m, args, target))
   def invoke(invocation: Invocation): AnyRef = invocation.invoke
 }

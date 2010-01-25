@@ -2,21 +2,18 @@ package gwt.test.components
 
 import java.net.URL;
 import java.util.Calendar;
-import javax.persistence.EntityManagerFactory
 import javax.persistence.EntityManager
 import scala.io.Source;
 import gwt.test.entities._
-
+import gwt.test.annotations.Logging
+import gwt.test.annotations.LogLevel
 
 trait StockImporterComponentImpl extends StockImporterComponent {
 	
-	class StockImporterImpl(emf: EntityManagerFactory) extends StockImporter with JpaUtil {  
-	 
-	  override def getEntityManager() : EntityManager = {
-	    return emf.createEntityManager
-	  }
-	  
-	override def importStockHistory(symbol: String) : List[StockQuote] =  {
+	@Logging  
+	class StockImporterImpl(val em: EntityManager) extends StockImporter with JpaUtil {  	 	  	  	  
+  
+	override def importStockHistory(symbol: String) : List[StockQuote] =  {	  
 	  var quotes =  List[StockQuote]();
 	  val cal = Calendar.getInstance;
 	  val date = cal.get(Calendar.DAY_OF_MONTH).toString :: cal.get(Calendar.MONTH).toString :: cal.get(Calendar.YEAR).toString :: Nil;
@@ -47,8 +44,7 @@ trait StockImporterComponentImpl extends StockImporterComponent {
 	  return quotes;
 	} 
  
-	override def storeStockHistory(quotes: List[StockQuote]) : Long = {
-	  val em = emf.createEntityManager;
+	override def storeStockHistory(quotes: List[StockQuote]) : Long = {	  
 	  var sym: Symbol = null;
 	  if(!quotes.isEmpty) {
 	    sym = quotes.head.symbol;
@@ -70,9 +66,8 @@ trait StockImporterComponentImpl extends StockImporterComponent {
 	  return quoteCount;
 	}
  
-	override def updateStockHistory(quotes: List[StockQuote]) : Long = {
-	  val em = emf.createEntityManager;
-	  var newest: Calendar = null;
+	override def updateStockHistory(quotes: List[StockQuote]) : Long = {	  
+	  var newest: Calendar = null; 
 	  var quoteCount: Long = 0;
 	  if(!quotes.isEmpty) {
 	    var sym = quotes.head.symbol;

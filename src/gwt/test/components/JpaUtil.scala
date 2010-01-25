@@ -3,9 +3,7 @@ package gwt.test.components
 import javax.persistence.EntityManager
 
 trait JpaUtil {	  
-  
-  def getEntityManager() : EntityManager
-  
+   
   	def transaction(em: EntityManager,op: EntityManager => Unit) {	  
 	  val tx = em.getTransaction;
 	  try{

@@ -24,4 +24,4 @@ class Symbol {
  	@BeanProperty 	 	
  	@OneToMany{val cascade=Array(CascadeType.REMOVE), val mappedBy="symbol", val targetEntity=classOf[StockQuote]}
  	var stockQuotes: java.util.Collection[StockQuote] = new java.util.ArrayList[StockQuote];
-}
+} 
