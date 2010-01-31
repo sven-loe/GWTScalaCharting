@@ -6,7 +6,7 @@ trait StockDBServiceComponent {
 	val stockDBService: StockDBService
  
 	trait StockDBService {	  
-	  def getCurrentStockQuote(symbol: String) : StockQuote
+	  def getCurrentStockQuote(symbol: String) : gwt.test.client.StockQuote
    
 	  def getStockHistory(symbol: String) : List[StockQuote]
    

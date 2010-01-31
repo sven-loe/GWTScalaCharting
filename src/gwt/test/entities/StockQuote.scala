@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
  
 @Entity
 @serializable
-class StockQuote {
+class StockQuote { 
   
   @BeanProperty
   @Id @GeneratedValue  

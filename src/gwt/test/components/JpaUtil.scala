@@ -15,5 +15,5 @@ trait JpaUtil {
 	      tx.rollback;	      
 	      throw e;       
 	  }	  
-  	} 
+  	}  
 }

@@ -11,7 +11,7 @@ import javax.persistence.FetchType;
 
 @Entity
 @serializable
-class Symbol {	
+class Symbol { 
 	@Id @GeneratedValue
 	@BeanProperty
 	var id: Long  = _
@@ -24,4 +24,4 @@ class Symbol {
  	@BeanProperty 	 	
  	@OneToMany{val cascade=Array(CascadeType.REMOVE), val mappedBy="symbol", val targetEntity=classOf[StockQuote]}
  	var stockQuotes: java.util.Collection[StockQuote] = new java.util.ArrayList[StockQuote];
-} 
+}

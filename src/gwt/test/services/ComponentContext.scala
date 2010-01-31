@@ -18,5 +18,5 @@ class ComponentContext(val entityManagerFactory: EntityManagerFactory) {
 	def closeEntityManager() : Unit = { 
 		if(entityManager != None && entityManager.get.isOpen) entityManager.get.close()
 		entityManager = None
- }
+	}
 }

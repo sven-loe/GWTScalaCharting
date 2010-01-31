@@ -12,9 +12,10 @@ import java.io.BufferedOutputStream;
 import org.jfree.chart.ChartUtilities;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import gwt.test.services.DbObject;
 
-class JFreeChartServlet extends HttpServlet {  
-	 	
+class JFreeChartServlet extends HttpServlet {  		
+  
 	override def doGet(req: HttpServletRequest, resp: HttpServletResponse) = {
 		val symbol = req.getParameter(JFreeChartServlet.PARAMETER_SYMBOL)
 		val timeframe = req.getParameter(JFreeChartServlet.PARAMETER_TIMEFRAME)
@@ -22,14 +23,21 @@ class JFreeChartServlet extends HttpServlet {
 		val timeSeries = new TimeSeries(symbol, myDay.getClass)
 		val cal = Calendar.getInstance()
   
-		for(i <- 1 to 4) {				  
-		  var day = new MyDay(cal.get(Calendar.DAY_OF_MONTH) - i,cal.get(Calendar.MONTH) +1, cal.get(Calendar.YEAR))
-		  if("RDY" == symbol) {
-		    timeSeries.addOrUpdate(day, 5 - i);
-		  } else { 
-		    timeSeries.addOrUpdate(day, i);
-          }		    
-		}
+//		for(i <- 1 to 4) {				  
+//		  var day = new MyDay(cal.get(Calendar.DAY_OF_MONTH) - i,cal.get(Calendar.MONTH) +1, cal.get(Calendar.YEAR))
+//		  if("RDY" == symbol) {
+//		    timeSeries.addOrUpdate(day, 5 - i);
+//		  } else { 
+//		    timeSeries.addOrUpdate(day, i);
+//          }		    
+//		}
+		
+		val stockQuotes = DbObject.stockDBService.getStockHistory(symbol)
+		stockQuotes.foreach(sq => {
+			var day = new MyDay(sq.time.get(Calendar.DAY_OF_MONTH), sq.time.get(Calendar.MONTH) +1, cal.get(Calendar.YEAR))
+			timeSeries.addOrUpdate(day, sq.adjLast)
+		})
+  
 		val xyDataset = new TimeSeriesCollection(timeSeries)
 		val chart = ChartFactory.createTimeSeriesChart("Chart for: " + symbol, "Time", "Price", xyDataset,
 				true, true, false)

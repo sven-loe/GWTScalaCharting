@@ -1,10 +1,14 @@
 package gwt.test.components
 
+import gwt.test.annotations.Logging;
+import gwt.test.annotations.Transaction;
 import gwt.test.entities._
 import gwt.test.services.ComponentContext
 
-trait StockDBServiceComponentImpl extends StockDBServiceComponent {
+trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectConverter {
 
+  @Logging
+  @Transaction 
   class StockDBServiceImpl(val context: ComponentContext) extends StockDBService {
 	  def getCurrentStockQuote(symbol: String) : StockQuote = {
 	    val em = context.getEntityManager()

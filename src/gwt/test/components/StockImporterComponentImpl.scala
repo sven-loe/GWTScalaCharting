@@ -10,7 +10,7 @@ import gwt.test.annotations.LogLevel
 import gwt.test.services.ComponentContext
 
 trait StockImporterComponentImpl extends StockImporterComponent {
-	
+	 
 	@Logging  
 	class StockImporterImpl(val context: ComponentContext) extends StockImporter with JpaUtil {  	 	  	  	  
   
