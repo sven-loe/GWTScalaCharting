@@ -3,20 +3,20 @@ package gwt.test.services
 import javax.persistence.EntityManagerFactory
 import javax.persistence.EntityManager
 
-class ComponentContext(val entityManagerFactory: EntityManagerFactory) {
-	private var entityManager: Option[EntityManager] = None
+class ComponentContext(val entityManagerFactory: EntityManagerFactory) {	
+	private val threadLocal = new ThreadLocal[Option[EntityManager]]
 	
-	def getEntityManager() : EntityManager = {   
-		if(entityManager == None) {			
-			entityManager = Some(entityManagerFactory.createEntityManager())
-			entityManager.get  			
+	def getEntityManager() : EntityManager = {   		
+		if(threadLocal.get == None) {			
+			threadLocal.set(Some(entityManagerFactory.createEntityManager()))
+			threadLocal.get.get  			
 		} else {
-			entityManager.get
+			threadLocal.get.get
 		}
 	}
 	
 	def closeEntityManager() : Unit = { 
-		if(entityManager != None && entityManager.get.isOpen) entityManager.get.close()
-		entityManager = None
+		if(threadLocal.get != None && threadLocal.get.get.isOpen) threadLocal.get.get.close()
+		threadLocal.set(None)
 	}
 }
