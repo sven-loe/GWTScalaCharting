@@ -31,7 +31,7 @@ class JFreeChartServlet extends HttpServlet {
 //		    timeSeries.addOrUpdate(day, i);
 //          }		    
 //		}
-		
+	
 		val stockQuotes = DbObject.stockDBService.getStockHistory(symbol)
 		stockQuotes.foreach(sq => {
 			var day = new MyDay(sq.time.get(Calendar.DAY_OF_MONTH), sq.time.get(Calendar.MONTH) +1, cal.get(Calendar.YEAR))

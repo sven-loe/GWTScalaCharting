@@ -18,7 +18,8 @@
 		<buildCommand>
 			<name>com.google.gdt.eclipse.core.webAppProjectValidator</name>
 			<arguments>
-			</arguments>								</buildCommand>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>ch.epfl.lamp.sdt.core.scalanature</nature>
