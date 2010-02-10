@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence>
  <persistence-unit name="jpa">    
-    <class>scala.entities.StockQuote</class>
-    <class>scala.entities.Symbol</class>    
+    <class>gwt.test.entities.StockQuote</class>
+    <class>gwt.test.entities.Symbol</class>    
     <properties>
-            <property name="datanucleus.ConnectionDriverName" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="datanucleus.ConnectionDriverName" value="org.postgresql.Driver"/>
             <property name="datanucleus.ConnectionURL" value="jdbc:postgresql:sven"/>
             <property name="datanucleus.ConnectionUserName" value="sven"/>
             <property name="datanucleus.ConnectionPassword" value=""/>
