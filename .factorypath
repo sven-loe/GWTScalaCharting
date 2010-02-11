@@ -1,0 +1,6 @@
+<factorypath>
+    <factorypathentry kind="WKSPJAR" id="/GWTScalaCharting/war/WEB-INF/lib/datanucleus-core-1.1.5.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/GWTScalaCharting/war/WEB-INF/lib/datanucleus-enhancer-1.1.4.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/GWTScalaCharting/war/WEB-INF/lib/asm-3.1.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/GWTScalaCharting/war/WEB-INF/lib/jdo2-api-2.3-ea.jar" enabled="true" runInBatchMode="false"/>
+</factorypath>
