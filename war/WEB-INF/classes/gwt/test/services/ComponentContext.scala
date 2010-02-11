@@ -1,21 +1,25 @@
 package gwt.test.services
 
+import javax.persistence.Persistence
 import javax.persistence.EntityManagerFactory
 import javax.persistence.EntityManager
 import javax.jdo.JDOEnhancer
 import javax.jdo.JDOHelper
 
-class ComponentContext(val entityManagerFactory: EntityManagerFactory) {	
+class ComponentContext() {	
 	private val threadLocal = new ThreadLocal[Option[EntityManager]]
-	
-	def this(entityManagerFactory: EntityManagerFactory, enhanceEntities: boolean) = {
-	  this(entityManagerFactory)
+	private var entityManagerFactory: EntityManagerFactory = null
+ 
+	def this(emfName: String, enhanceEntities: boolean) = {	  
+	  this()
 	  if(enhanceEntities) {
 		  val enhancer = JDOHelper.getEnhancer()
 		  enhancer.setVerbose(true);
 		  enhancer.addPersistenceUnit("jpa");
-		  enhancer.enhance();
+		  enhancer.enhance();	  
 	  }
+	  entityManagerFactory = Persistence.createEntityManagerFactory(emfName)
+	  threadLocal.set(None)
 	}
  
 	def getEntityManager() : EntityManager = {   		
