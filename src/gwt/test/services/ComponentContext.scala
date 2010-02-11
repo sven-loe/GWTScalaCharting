@@ -17,7 +17,7 @@ class ComponentContext() {
 		  if(enhanceEntities) {
 			  val enhancer = JDOHelper.getEnhancer()
 			  enhancer.setVerbose(true);
-			  enhancer.addPersistenceUnit("jpa");
+			  enhancer.addPersistenceUnit(emfName);
 			  enhancer.enhance();	  
 		  }
 		  entityManagerFactory = Persistence.createEntityManagerFactory(emfName)		  

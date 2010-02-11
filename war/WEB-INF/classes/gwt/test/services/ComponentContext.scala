@@ -7,7 +7,7 @@ import javax.jdo.JDOEnhancer
 import javax.jdo.JDOHelper
 
 class ComponentContext() {	
-	private val threadLocal = new ThreadLocal[Option[EntityManager]]
+	private val threadLocal = new ThreadLocal[EntityManager]
 	private var entityManagerFactory: EntityManagerFactory = null
 	private val lock: AnyRef = new Object
  
@@ -17,25 +17,24 @@ class ComponentContext() {
 		  if(enhanceEntities) {
 			  val enhancer = JDOHelper.getEnhancer()
 			  enhancer.setVerbose(true);
-			  enhancer.addPersistenceUnit("jpa");
+			  enhancer.addPersistenceUnit(emfName);
 			  enhancer.enhance();	  
 		  }
-		  entityManagerFactory = Persistence.createEntityManagerFactory(emfName)
-		  threadLocal.set(None)
+		  entityManagerFactory = Persistence.createEntityManagerFactory(emfName)		  
 	  }
 	}
  
 	def getEntityManager() : EntityManager = {   		
-		if(threadLocal.get == null || threadLocal.get == None) {			
-			threadLocal.set(Some(entityManagerFactory.createEntityManager()))
-			threadLocal.get.get  			
+		if(threadLocal.get == null) {			
+			threadLocal.set(entityManagerFactory.createEntityManager())
+			threadLocal.get  			
 		} else {
-			threadLocal.get.get
+			threadLocal.get
 		}
 	}
 	
 	def closeEntityManager() : Unit = { 
-		if((threadLocal.get != null || threadLocal.get != None) && threadLocal.get.get.isOpen) threadLocal.get.get.close()
-		threadLocal.set(None)
+		if(threadLocal.get != null && threadLocal.get.isOpen) threadLocal.get.close()
+		threadLocal.set(null)
 	}
 }
