@@ -14,7 +14,7 @@ trait ObjectConverter {
 	  gwtStockQuote.setLast((stockQuote.last / 100).toString)
 	  gwtStockQuote.setName(stockQuote.symbol.name)
       gwtStockQuote.setSymbol(stockQuote.symbol.symbol)
-      gwtStockQuote.setTime(stockQuote.time.getTime)
+      gwtStockQuote.setTime(stockQuote.time)
       gwtStockQuote.setVolume(stockQuote.volume.toString)
 	  gwtStockQuote
 	}	
@@ -29,9 +29,7 @@ trait ObjectConverter {
 		stockQuote.last = java.lang.Long.parseLong(gwtStockQuote.getLast)
 		stockQuote.symbol.name = gwtStockQuote.getName
 		stockQuote.symbol.symbol = gwtStockQuote.getSymbol
-		val cal = Calendar.getInstance
-		cal.setTime(gwtStockQuote.getTime)
-		stockQuote.time = cal
+		stockQuote.time = gwtStockQuote.getTime
 		stockQuote.volume = java.lang.Long.parseLong(gwtStockQuote.getVolume)
 		stockQuote
 	}

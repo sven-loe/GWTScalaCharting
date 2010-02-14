@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import scala.reflect.BeanProperty;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Calendar;
+import java.util.Date;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
@@ -20,7 +20,7 @@ class StockQuote {
   @BeanProperty
   var currency: String = _
   @BeanProperty
-  var time: Calendar = _
+  var time: Date = _
   @BeanProperty
   var last: Long = _
   @BeanProperty
