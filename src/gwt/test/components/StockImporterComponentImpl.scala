@@ -1,3 +1,17 @@
+/*This file is part of GWTScalaCharting
+
+GWTScalaCharting is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License.
+
+GWTScalaCharting is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
+
 package gwt.test.components
 
 import java.net.URL;
@@ -37,7 +51,7 @@ trait StockImporterComponentImpl extends StockImporterComponent {
 			  val calData = data(0).split("-");
 			  val cal = Calendar.getInstance;
 			  cal.set(java.lang.Integer.parseInt(calData(0).trim), java.lang.Integer.parseInt(calData(1).trim)-1, java.lang.Integer.parseInt(calData(2).trim));
-			  quote.time = cal;
+			  quote.time = cal.getTime;
 			  quote.symbol = sym;			  
 			  quotes = quote :: quotes;
 		  }
@@ -83,7 +97,7 @@ trait StockImporterComponentImpl extends StockImporterComponent {
 	    	newest = Calendar.getInstance;
 	    	newest.set(Calendar.YEAR,1900);
 	    }
-	    val myQuotes = quotes.filter(quote => quote.time.after(newest));
+	    val myQuotes = quotes.filter(quote => quote.time.after(newest.getTime));
 	    if(sym == null) 
 	    	sym = quotes.head.symbol;
 	    myQuotes.foreach(quote => quote.symbol = sym);

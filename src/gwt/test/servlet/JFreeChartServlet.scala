@@ -1,3 +1,17 @@
+/*This file is part of GWTScalaCharting
+
+GWTScalaCharting is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License.
+
+GWTScalaCharting is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
+
 package gwt.test.servlet
 
 import javax.servlet.http.HttpServlet;
@@ -32,9 +46,10 @@ class JFreeChartServlet extends HttpServlet {
 //          }		    
 //		}
 	
-		val stockQuotes = DbObject.stockDBService.getStockHistory(symbol)
+		val stockQuotes = DbObject.stockDBService.getStockHistory(symbol)		
 		stockQuotes.foreach(sq => {
-			var day = new MyDay(sq.time.get(Calendar.DAY_OF_MONTH), sq.time.get(Calendar.MONTH) +1, cal.get(Calendar.YEAR))
+			cal.setTime(sq.time) 
+			var day = new MyDay(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) +1, cal.get(Calendar.YEAR))
 			timeSeries.addOrUpdate(day, sq.adjLast)
 		})
   
