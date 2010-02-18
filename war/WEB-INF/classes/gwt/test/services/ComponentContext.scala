@@ -37,7 +37,7 @@ class ComponentContext() {
 		  entityManagerFactory = Persistence.createEntityManagerFactory(emfName)		  
 	  }
 	}
- 
+
 	def getEntityManager() : EntityManager = {   		
 		if(threadLocal.get == null) {			
 			threadLocal.set(entityManagerFactory.createEntityManager())

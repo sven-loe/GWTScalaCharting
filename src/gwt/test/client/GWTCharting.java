@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class GWTCharting implements EntryPoint {
 
@@ -76,6 +77,7 @@ public class GWTCharting implements EntryPoint {
 		timeframe.addItem("1 Month", "1M");
 		timeframe.addItem("14 Days", "14D");
 		final Button showButton = new Button("Show");
+		final Button importButton = new Button("Import");
 
 		final HorizontalPanel hPanel1 = new HorizontalPanel();
 		hPanel1.setSpacing(5);
@@ -89,6 +91,7 @@ public class GWTCharting implements EntryPoint {
 		hPanel2.add(timeFrameLabel);
 		hPanel2.add(timeframe);
 		hPanel2.add(showButton);
+		hPanel2.add(importButton);
 
 		final VerticalPanel vPanel1 = new VerticalPanel();
 		vPanel1.add(hPanel1);
@@ -174,9 +177,35 @@ public class GWTCharting implements EntryPoint {
 			 * Fired when the user clicks on the sendButton.
 			 */
 			public void onClick(ClickEvent event) {
-				sendNameToServer();
+				Widget sender = (Widget) event.getSource();
+				if(sender == showButton) {
+					sendNameToServer();
+				} else {
+					importStockQuotes();
+				}
 			}
 
+			private void importStockQuotes() {
+				importButton.setEnabled(false);
+				chartingService.importStockQuotes(symbol.getText(), new AsyncCallback<Long>() {
+					public void onFailure(Throwable caught) {
+							// Show the RPC error message to the user
+							dialogBox.setText("Remote Procedure Call - Failure");
+							serverResponseLabel.addStyleName("serverResponseLabelError");
+							serverResponseLabel.setHTML(SERVER_ERROR);
+							dialogBox.center();
+
+					}
+					public void onSuccess(Long result) {
+						dialogBox.setText("Successfuly imported StockQuotes.");
+						serverResponseLabel.setHTML("Successfuly imported " + result + "StockQuotes");						
+						dialogBox.center();
+					}
+					
+				});
+				importButton.setEnabled(true);
+			}
+			
 			private void sendNameToServer() {
 				showButton.setEnabled(false);
 				chartingService.getLastStockQuote(symbol.getText(), new AsyncCallback<StockQuote>() {
@@ -194,7 +223,7 @@ public class GWTCharting implements EntryPoint {
 						dayLow.setText("Low: " + result.getDayLow());
 						close.setText("Close: " + result.getLast());
 						volume.setText("Volume: " + result.getVolume());
-						
+						adjClose.setText("Adj. Close: " + result.getAdjLast());
 					}
 					
 				});
@@ -224,6 +253,7 @@ public class GWTCharting implements EntryPoint {
 		// Add a handler to send the name to the server
 		MyHandler handler = new MyHandler();
 		showButton.addClickHandler(handler);
+		importButton.addClickHandler(handler);
 		// sendButton.addClickHandler(handler);
 		// nameField.addKeyUpHandler(handler);
 	}

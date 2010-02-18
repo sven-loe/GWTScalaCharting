@@ -31,5 +31,5 @@ object DbObject extends StockImporterComponentImpl with StockDBServiceComponentI
 			new ManagedComponentProxy(new StockDBServiceImpl(context),context)  
 			with LoggingInterceptor
 			with TransactionInterceptor)
-	
+
 } 

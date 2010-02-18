@@ -59,28 +59,44 @@ trait StockImporterComponentImpl extends StockImporterComponent {
 	  return quotes;
 	} 
  
-	override def storeStockHistory(quotes: List[StockQuote]) : Long = {	  
-	  var sym: Symbol = null;
-	  val em = context.getEntityManager()
+	override def storeStockHistory(quotes: List[StockQuote]) : Long = {
+	  val em = context.getEntityManager
+	  var quoteCount = 0L
 	  if(!quotes.isEmpty) {
-	    sym = quotes.head.symbol;
-	    transaction(em, em => em.createQuery("delete from Symbol s where s.symbol = :symbol").setParameter("symbol", sym.symbol).executeUpdate);
-	    sym = quotes.head.symbol;
-	    transaction(em, em => em.persist(sym));	    
+	    val symbol = quotes.head.symbol
+	    transaction(em,em => {
+	    	val oldStockQuotes = em.createQuery("select sq from StockQuote sq where sq.symbol.symbol=:symbol").setParameter("symbol",symbol).getResultList()
+	    	val oldQuotes = List.fromArray(oldStockQuotes.toArray)
+	    	oldQuotes.foreach(quote => em.remove(quote))
+            quotes.foreach(quote => {em.persist(quote); quoteCount+1})
+	    })
 	  }
-	  transaction(em, em => {
-        val oldQuotes = em.createQuery("select count(sq) from StockQuote sq, Symbol s where sq.symbol = s and s.symbol = :symbol").setParameter("symbol", sym.symbol).getSingleResult.asInstanceOf[Long];
-	    if(oldQuotes > 0) {
-	      val updates = em.createQuery("delete from StockQuote sq where sq.symbol = :symbol").setParameter("symbol", sym).executeUpdate;
-	    }
-      });
-	  var quoteCount: Long = 0;
-	  transaction(em, em => {	  
-	    quotes.foreach(quote => {em.persist(quote); quoteCount += 1;});
-	  });
-	  em.close;
-	  return quoteCount;
+	  em.close
+	  return quoteCount
 	}
+ 
+//	override def storeStockHistory(quotes: List[StockQuote]) : Long = {	  
+//	  var sym: Symbol = null;
+//	  val em = context.getEntityManager()
+//	  if(!quotes.isEmpty) {
+//	    sym = quotes.head.symbol;
+//	    transaction(em, em => em.createQuery("delete from Symbol s where s.symbol = :symbol").setParameter("symbol", sym.symbol).executeUpdate);
+//	    sym = quotes.head.symbol;
+//	    transaction(em, em => em.persist(sym));	    
+//	  }
+//	  transaction(em, em => {
+//        val oldQuotes = em.createQuery("select count(sq) from StockQuote sq, Symbol s where sq.symbol = s and s.symbol = :symbol").setParameter("symbol", sym.symbol).getSingleResult.asInstanceOf[Long];
+//	    if(oldQuotes > 0) {
+//	      val updates = em.createQuery("delete from StockQuote sq where sq.symbol = :symbol").setParameter("symbol", sym).executeUpdate;
+//	    }
+//      });
+//	  var quoteCount: Long = 0;
+//	  transaction(em, em => {	  
+//	    quotes.foreach(quote => {em.persist(quote); quoteCount += 1;});
+//	  });
+//	  em.close;
+//	  return quoteCount;
+//	}
  
 	override def updateStockHistory(quotes: List[StockQuote]) : Long = {	  
 	  var newest: Calendar = null; 
