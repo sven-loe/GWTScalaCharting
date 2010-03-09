@@ -16,7 +16,7 @@ package gwt.test.client;
 
 import java.io.Serializable;
 import java.util.Date;
-
+ 
 public class StockQuote implements Serializable {
 
 	private static final long serialVersionUID = 4742633284436858258L;

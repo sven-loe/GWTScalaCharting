@@ -15,7 +15,7 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
 package gwt.test.services
 
 import javax.persistence.EntityManager
-
+ 
 trait TransactionInterceptor extends Interceptor {
     val taAnnotation = classOf[gwt.test.annotations.Transaction]
     val context: ComponentContext

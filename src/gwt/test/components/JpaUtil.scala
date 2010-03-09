@@ -15,7 +15,7 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
 package gwt.test.components
 
 import javax.persistence.EntityManager
-
+ 
 trait JpaUtil {	  
    
   	def transaction(em: EntityManager,op: EntityManager => Unit) {	  

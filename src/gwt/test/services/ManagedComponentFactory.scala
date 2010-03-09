@@ -19,7 +19,6 @@ import java.lang.reflect.Proxy
 import java.lang.reflect.InvocationHandler
 import javax.persistence.EntityManager
 
-
 object ManagedComponentFactory {
   def createComponent[T](intf: Class[T] forSome {type T}, proxy: ManagedComponentProxy): T =
     Proxy.newProxyInstance(

@@ -22,7 +22,7 @@ import gwt.test.entities._
 import gwt.test.annotations.Logging
 import gwt.test.annotations.LogLevel
 import gwt.test.services.ComponentContext
-
+ 
 trait StockImporterComponentImpl extends StockImporterComponent {
 	 
 	@Logging  
@@ -65,9 +65,17 @@ trait StockImporterComponentImpl extends StockImporterComponent {
 	  if(!quotes.isEmpty) {
 	    val symbol = quotes.head.symbol
 	    transaction(em,em => {
-	    	val oldStockQuotes = em.createQuery("select sq from StockQuote sq where sq.symbol.symbol=:symbol").setParameter("symbol",symbol).getResultList()
-	    	val oldQuotes = List.fromArray(oldStockQuotes.toArray)
-	    	oldQuotes.foreach(quote => em.remove(quote))
+//	    	val oldStockQuotes = em.createQuery("select sq from StockQuote sq where sq.symbol.symbol=:symbol").setParameter("symbol",symbol.symbol).getResultList()
+//	    	val oldQuotes = List.fromArray(oldStockQuotes.toArray)
+//	    	oldQuotes.foreach(quote => em.remove(quote))
+            try{
+            	val mySymbol = em.createQuery("select sym from Symbol sym where sym.symbol=:symbol").setParameter("symbol", symbol.symbol).getSingleResult;
+            	em.remove(mySymbol);
+            } catch {
+              case ex: Exception => {
+                println("No Symbol " + symbol.symbol + " found.");
+              }
+            }
             quotes.foreach(quote => {em.persist(quote); quoteCount+1})
 	    })
 	  }

@@ -16,7 +16,7 @@ package gwt.test.services
 
 import javax.persistence.Persistence;
 import gwt.test.components._
- 
+
 object DbObject extends StockImporterComponentImpl with StockDBServiceComponentImpl {  		
 	private val context = new ComponentContext("jpa", true)
 

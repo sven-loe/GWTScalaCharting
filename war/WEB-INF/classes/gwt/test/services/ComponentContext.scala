@@ -19,7 +19,7 @@ import javax.persistence.EntityManagerFactory
 import javax.persistence.EntityManager
 import javax.jdo.JDOEnhancer
 import javax.jdo.JDOHelper
-
+ 
 class ComponentContext() {	
 	private val threadLocal = new ThreadLocal[EntityManager]
 	private var entityManagerFactory: EntityManagerFactory = null

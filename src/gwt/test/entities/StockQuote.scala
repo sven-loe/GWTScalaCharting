@@ -17,19 +17,21 @@ package gwt.test.entities
 import javax.persistence.Entity;
 import scala.reflect.BeanProperty;
 import javax.persistence.GeneratedValue;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Id;
 import java.util.Date;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
- 
+
 @Entity
 @serializable
+@SequenceGenerator{val name="StockQuoteSeq", val sequenceName="SQSequence"}
 class StockQuote { 
   
   @BeanProperty
-  @Id @GeneratedValue  
+  @Id @GeneratedValue{val generator="StockQuoteSeq"}  
   var id: Long = _
   @BeanProperty
   var currency: String = _

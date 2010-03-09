@@ -31,5 +31,5 @@ public enum TimeFrame {
 	
 	public String getTimeFrame() {
 		return timeFrame;
-	}
+	} 
 }

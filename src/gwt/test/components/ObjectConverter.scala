@@ -16,7 +16,7 @@ package gwt.test.components
 
 import gwt.test.entities._
 import java.util.Calendar
-
+ 
 trait ObjectConverter {
 	def getGwtStockQuote(stockQuote: StockQuote) : gwt.test.client.StockQuote = {
 	  val gwtStockQuote = new gwt.test.client.StockQuote

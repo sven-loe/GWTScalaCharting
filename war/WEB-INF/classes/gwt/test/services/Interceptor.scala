@@ -13,7 +13,7 @@ You should have received a copy of the GNU General Public License
 along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
 
 package gwt.test.services
-
+ 
 trait Interceptor {
   protected def matches(annotationClass: java.lang.Class[T] forSome {type T <: java.lang.annotation.Annotation}, invocation: Invocation): Boolean = {
     invocation.method.isAnnotationPresent(annotationClass) ||

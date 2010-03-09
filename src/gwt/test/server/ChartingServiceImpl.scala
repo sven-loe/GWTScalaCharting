@@ -22,7 +22,6 @@ import gwt.test.servlet.JFreeChartServlet;
 import gwt.test.services.DbObject;
 import java.util.Date;
 
- 
 class ChartingServiceImpl extends RemoteServiceServlet with ChartingService {  
    
   override def getChart(symbol: String, timeFrame: TimeFrame) : String = {    

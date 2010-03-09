@@ -20,7 +20,7 @@ import gwt.test.entities._
 import gwt.test.services.ComponentContext
 import java.util.Calendar
 import scala.collection.mutable  
-
+ 
 trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectConverter {
 
   @Logging

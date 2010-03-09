@@ -17,16 +17,18 @@ package gwt.test.entities
 import javax.persistence.Entity;
 import scala.reflect.BeanProperty;
 import javax.persistence.GeneratedValue;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
-
+ 
 @Entity
 @serializable
+@SequenceGenerator{val name="SymbolSeq", val sequenceName="SymSequence"}
 class Symbol { 
-	@Id @GeneratedValue
+	@Id @GeneratedValue{val generator="SymbolSeq"}
 	@BeanProperty
 	var id: Long  = _
 	@BeanProperty

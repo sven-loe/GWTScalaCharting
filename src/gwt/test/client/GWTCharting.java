@@ -202,7 +202,7 @@ public class GWTCharting implements EntryPoint {
 						dialogBox.center();
 					}
 					
-				});
+				}); 
 				importButton.setEnabled(true);
 			}
 			

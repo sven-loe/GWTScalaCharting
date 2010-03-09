@@ -15,7 +15,7 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
 package gwt.test.components
 
 import gwt.test.entities._
-
+ 
 trait StockDBServiceComponent {
 	val stockDBService: StockDBService
  
