@@ -28,6 +28,7 @@ import javax.persistence.FetchType;
 @serializable
 @SequenceGenerator{val name="SymbolSeq", val sequenceName="SymSequence"}
 class Symbol { 
+ 
 	@Id @GeneratedValue{val generator="SymbolSeq"}
 	@BeanProperty
 	var id: Long  = _

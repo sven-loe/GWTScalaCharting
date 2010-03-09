@@ -76,7 +76,8 @@ trait StockImporterComponentImpl extends StockImporterComponent {
                 println("No Symbol " + symbol.symbol + " found.");
               }
             }
-            quotes.foreach(quote => {em.persist(quote); quoteCount+1})
+            em.persist(symbol)
+            quotes.foreach(quote => {em.persist(quote); quoteCount +=1 })
 	    })
 	  }
 	  em.close
