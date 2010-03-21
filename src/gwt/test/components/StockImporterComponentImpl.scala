@@ -22,7 +22,7 @@ import gwt.test.entities._
 import gwt.test.annotations.Logging
 import gwt.test.annotations.LogLevel
 import gwt.test.services.ComponentContext
- 
+
 trait StockImporterComponentImpl extends StockImporterComponent {
 	 
 	@Logging  
@@ -77,10 +77,16 @@ trait StockImporterComponentImpl extends StockImporterComponent {
               }
             }
             em.persist(symbol)
-            quotes.foreach(quote => {em.persist(quote); quoteCount +=1 })
+            println("Number of Quotes: "+quotes.length)
+            quotes.foreach(quote => {
+              em.persist(quote); 
+              quoteCount +=1;
+              if(quoteCount % 1000 == 0) println("Number "+quoteCount);
+            })
 	    })
 	  }
 	  em.close
+	  println("QuoteCount: "+quoteCount)
 	  return quoteCount
 	}
  

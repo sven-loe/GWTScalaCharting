@@ -19,7 +19,7 @@ import gwt.test.annotations.Transaction;
 import gwt.test.entities._
 import gwt.test.services.ComponentContext
 import java.util.Calendar
-import scala.collection.mutable  
+import scala.collection.mutable._ 
  
 trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectConverter {
 
@@ -52,10 +52,17 @@ trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectCon
 	  def getStockHistory(symbol: String) : List[StockQuote] = {
 	    val em = context.getEntityManager()
 	    val stockQuotes = em.createQuery("select sq from StockQuote sq, Symbol s where sq.symbol.symbol = :symbol order by sq.time").setParameter("symbol", symbol).getResultList()
-	    if(stockQuotes.size() > 0) {
-	    	val stockQuotesArr = stockQuotes.toArray
-	    	val myStockQuotes = List.fromArray(stockQuotesArr.asInstanceOf[Array[StockQuote]])	    
-	    	myStockQuotes
+	    if(stockQuotes.size() > 0) {	    	
+//	    	val stockQuotesArr = stockQuotes.toArray
+//	    	val typedStockQuotesArr = stockQuotesArr.asInstanceOf[Array[StockQuote]]
+  	    	val myStockQuotes = new ListBuffer[StockQuote]
+  	    	var i = 0
+  	    	while(i<stockQuotes.size) {  	    	  
+  	    	  val quote = stockQuotes.get(i).asInstanceOf[StockQuote]
+  	    	  myStockQuotes += quote
+  	    	}  	    	
+//	    	val myStockQuotes = List.fromArray(typedStockQuotesArr)	    
+	    	myStockQuotes.toList
 	    } else  {
 	    	val myStockQuotes = Nil
 	    	myStockQuotes

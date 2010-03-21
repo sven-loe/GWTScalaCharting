@@ -24,7 +24,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
-
+ 
 @Entity
 @serializable
 @SequenceGenerator{val name="StockQuoteSeq", val sequenceName="SQSequence"}

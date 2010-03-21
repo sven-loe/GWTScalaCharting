@@ -23,7 +23,7 @@ trait JpaUtil {
 	  try{
 		  tx.begin;
 		  op(em);		  
-		  tx.commit;
+		  tx.commit;    
 	  } catch {
 	    case e => 
 	      tx.rollback;	      

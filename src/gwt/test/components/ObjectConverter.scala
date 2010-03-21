@@ -16,6 +16,7 @@ package gwt.test.components
 
 import gwt.test.entities._
 import java.util.Calendar
+import java.util.Date
  
 trait ObjectConverter {
 	def getGwtStockQuote(stockQuote: StockQuote) : gwt.test.client.StockQuote = {
@@ -28,11 +29,11 @@ trait ObjectConverter {
 	  gwtStockQuote.setLast((stockQuote.last / 100).toString)
 	  gwtStockQuote.setName(stockQuote.symbol.name)
       gwtStockQuote.setSymbol(stockQuote.symbol.symbol)
-      gwtStockQuote.setTime(stockQuote.time)
+      gwtStockQuote.setTime(new Date(stockQuote.time.getTime))
       gwtStockQuote.setVolume(stockQuote.volume.toString)
 	  gwtStockQuote
 	}	
- 
+  
 	def getEntityStockQuote(gwtStockQuote: gwt.test.client.StockQuote) : StockQuote = {
 		val stockQuote = new StockQuote
 		stockQuote.symbol = new Symbol
