@@ -50,8 +50,10 @@ trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectCon
 	  }
    
 	  def getStockHistory(symbol: String) : List[StockQuote] = {
-	    val em = context.getEntityManager()
+	    val em = context.getEntityManager()	  
+	    println("Before query")
 	    val stockQuotes = em.createQuery("select sq from StockQuote sq, Symbol s where sq.symbol.symbol = :symbol order by sq.time").setParameter("symbol", symbol).getResultList()
+	    println("After query")
 	    if(stockQuotes.size() > 0) {	    	
 //	    	val stockQuotesArr = stockQuotes.toArray
 //	    	val typedStockQuotesArr = stockQuotesArr.asInstanceOf[Array[StockQuote]]
@@ -60,7 +62,9 @@ trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectCon
   	    	while(i<stockQuotes.size) {  	    	  
   	    	  val quote = stockQuotes.get(i).asInstanceOf[StockQuote]
   	    	  myStockQuotes += quote
-  	    	}  	    	
+  	    	  i += 1;
+  	    	}  
+        	println("List prepared")
 //	    	val myStockQuotes = List.fromArray(typedStockQuotesArr)	    
 	    	myStockQuotes.toList
 	    } else  {
