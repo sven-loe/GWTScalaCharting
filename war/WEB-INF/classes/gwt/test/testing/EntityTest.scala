@@ -46,16 +46,16 @@ class EntityTest extends JUnitSuite with ShouldMatchersForJUnit with JpaUtil wit
   
   @Before def initialize() {
     println("init")
-    val layout = new SimpleLayout();
-    val consoleAppender = new ConsoleAppender( layout );
-    logger.addAppender( consoleAppender );
+//    val layout = new SimpleLayout();
+//    val consoleAppender = new ConsoleAppender( layout );
+//    logger.addAppender( consoleAppender );
 
     val enhancer = JDOHelper.getEnhancer()
 	enhancer.setVerbose(true);
 	enhancer.addPersistenceUnit(puName);
 	enhancer.enhance();
   }
-   
+ 
 //  @Test def insertTest() {	
 //    val entityManager = entityManagerFactory.createEntityManager()
 //    transaction(entityManager, entityManager => {
@@ -73,7 +73,7 @@ class EntityTest extends JUnitSuite with ShouldMatchersForJUnit with JpaUtil wit
 //  }
  
   @Test def importerTest() {    
-	val stockQuotes = stockImporter.importStockHistory("ibn")
+	val stockQuotes = stockImporter.importStockHistory("ibm")
 	stockImporter.storeStockHistory(stockQuotes)
 	println("done")
   }

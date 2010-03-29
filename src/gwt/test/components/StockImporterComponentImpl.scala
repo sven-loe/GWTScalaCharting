@@ -64,29 +64,58 @@ trait StockImporterComponentImpl extends StockImporterComponent {
 	  var quoteCount = 0L
 	  if(!quotes.isEmpty) {
 	    val symbol = quotes.head.symbol
-	    transaction(em,em => {
+//	    transaction(em,em => {
 //	    	val oldStockQuotes = em.createQuery("select sq from StockQuote sq where sq.symbol.symbol=:symbol").setParameter("symbol",symbol.symbol).getResultList()
 //	    	val oldQuotes = List.fromArray(oldStockQuotes.toArray)
 //	    	oldQuotes.foreach(quote => em.remove(quote))
+            var tx = em.getTransaction
             try{
+            	tx.begin
             	val mySymbol = em.createQuery("select sym from Symbol sym where sym.symbol=:symbol").setParameter("symbol", symbol.symbol).getSingleResult;
             	em.remove(mySymbol);
+            	tx.commit
             } catch {
               case ex: Exception => {
                 println("No Symbol " + symbol.symbol + " found.");
+                tx.rollback
               }
             }
-            em.persist(symbol)
+            tx = em.getTransaction
+            try{
+	            tx.begin
+	            em.persist(symbol)
+	            tx.commit
+            } catch {
+              case ex: Exception => {
+                println("Persist symbol failed.");
+                tx.rollback
+              }
+            }
             println("Number of Quotes: "+quotes.length)
-            quotes.foreach(quote => {
-              em.persist(quote); 
-              quoteCount +=1;
-              if(quoteCount % 1000 == 0) println("Number "+quoteCount);
-            })
-	    })
+            tx = em.getTransaction
+            try{
+	            tx.begin
+	            quotes.foreach(quote => {
+	              em.persist(quote); 
+	              quoteCount +=1;
+	              if(quoteCount % 1000 == 0) {
+	                tx.commit
+	                println("Number "+quoteCount);
+	                tx = em.getTransaction
+	                tx.begin                
+	              }
+	            })
+	            tx.commit
+            } catch {
+              case ex: Exception => {
+                println("Persist stockquotes failed.");
+                tx.rollback
+              }
+            }
+//	    })
 	  }
 	  em.close
-	  println("QuoteCount: "+quoteCount)
+	  println("QuoteCount: "+quoteCount+" after commit.")
 	  return quoteCount
 	}
  

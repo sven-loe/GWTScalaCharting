@@ -22,7 +22,7 @@ trait JpaUtil {
 	  val tx = em.getTransaction;
 	  try{
 		  tx.begin;
-		  op(em);		  
+		  op(em);	
 		  tx.commit;    
 	  } catch {
 	    case e => 
