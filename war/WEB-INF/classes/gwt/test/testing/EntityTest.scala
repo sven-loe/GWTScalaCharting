@@ -73,7 +73,7 @@ class EntityTest extends JUnitSuite with ShouldMatchersForJUnit with JpaUtil wit
 //  }
  
   @Test def importerTest() {    
-	val stockQuotes = stockImporter.importStockHistory("ibm")
+	val stockQuotes = stockImporter.importStockHistory("ge")
 	stockImporter.storeStockHistory(stockQuotes)
 	println("done")
   }

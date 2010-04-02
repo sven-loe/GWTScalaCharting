@@ -45,20 +45,22 @@ class JFreeChartServlet extends HttpServlet {
 //		    timeSeries.addOrUpdate(day, i);
 //          }		    
 //		}
-	
-		val stockQuotes = DbObject.stockDBService.getStockHistory(symbol)		
+		var start = System.currentTimeMillis
+		val stockQuotes = DbObject.stockDBService.getStockHistory(symbol)
+		println("Get history from DB: "+(System.currentTimeMillis-start)+" ms");
 		stockQuotes.foreach(sq => {
 			cal.setTime(sq.time) 
 			var day = new MyDay(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) +1, cal.get(Calendar.YEAR))
 			timeSeries.addOrUpdate(day, sq.adjLast)
 		})
-  
+		start = System.currentTimeMillis
 		val xyDataset = new TimeSeriesCollection(timeSeries)
 		val chart = ChartFactory.createTimeSeriesChart("Chart for: " + symbol, "Time", "Price", xyDataset,
 				true, true, false)
 		val info = new ChartRenderingInfo(new StandardEntityCollection())
 		val os = new BufferedOutputStream(resp.getOutputStream())
-		ChartUtilities.writeChartAsPNG(os, chart, 500, 350, info)
+		ChartUtilities.writeChartAsPNG(os, chart, 1000, 700, info)
+		println("Render chart: "+(System.currentTimeMillis-start)+" ms")
 	}
   
 }

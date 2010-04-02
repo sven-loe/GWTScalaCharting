@@ -52,6 +52,7 @@ trait StockImporterComponentImpl extends StockImporterComponent {
 			  val cal = Calendar.getInstance;
 			  cal.set(java.lang.Integer.parseInt(calData(0).trim), java.lang.Integer.parseInt(calData(1).trim)-1, java.lang.Integer.parseInt(calData(2).trim));
 			  quote.time = cal.getTime;
+			  quote.dayOfYear = cal.get(Calendar.DAY_OF_YEAR)
 			  quote.symbol = sym;			  
 			  quotes = quote :: quotes;
 		  }
@@ -77,7 +78,7 @@ trait StockImporterComponentImpl extends StockImporterComponent {
             } catch {
               case ex: Exception => {
                 println("No Symbol " + symbol.symbol + " found.");
-                tx.rollback
+                tx.rollback                
               }
             }
             tx = em.getTransaction
@@ -89,6 +90,7 @@ trait StockImporterComponentImpl extends StockImporterComponent {
               case ex: Exception => {
                 println("Persist symbol failed.");
                 tx.rollback
+                throw ex
               }
             }
             println("Number of Quotes: "+quotes.length)
@@ -110,6 +112,7 @@ trait StockImporterComponentImpl extends StockImporterComponent {
               case ex: Exception => {
                 println("Persist stockquotes failed.");
                 tx.rollback
+                throw ex
               }
             }
 //	    })

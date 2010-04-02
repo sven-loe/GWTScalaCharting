@@ -29,7 +29,7 @@ import javax.persistence.JoinColumn;
 @serializable
 @SequenceGenerator{val name="StockQuoteSeq", val sequenceName="SQSequence"}
 class StockQuote { 
-   
+  
   @BeanProperty
   @Id @GeneratedValue{val generator="StockQuoteSeq"}  
   var id: Long = _
@@ -47,8 +47,10 @@ class StockQuote {
   var volume: Long = _
   @BeanProperty
   var adjLast: Long = _
-  @BeanProperty  
-  @ManyToOne
+  @BeanProperty
+  var dayOfYear: Long = _    
+  @BeanProperty
+  @ManyToOne 
   @JoinColumn{val name="symbol_id"}
   var symbol: Symbol = _
 }

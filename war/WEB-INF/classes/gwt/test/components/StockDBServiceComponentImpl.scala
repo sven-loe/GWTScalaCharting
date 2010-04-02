@@ -50,11 +50,13 @@ trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectCon
 	  }
    
 	  def getStockHistory(symbol: String) : List[StockQuote] = {
-	    val em = context.getEntityManager()	  
-	    println("Before query")
-	    val stockQuotes = em.createQuery("select sq from StockQuote sq, Symbol s where sq.symbol.symbol = :symbol order by sq.time").setParameter("symbol", symbol).getResultList()
-	    println("After query")
-	    if(stockQuotes.size() > 0) {	    	
+	    val em = context.getEntityManager()	 
+	    val stockQuoteCount = em.createQuery("select count(sq) from StockQuote sq where sq.symbol.symbol = :symbol").setParameter("symbol", symbol).getSingleResult.asInstanceOf[Long]	    
+	    var filter = 1L
+        if(stockQuoteCount > 1000) filter = (Math.floor(stockQuoteCount / 1000)).toLong 
+        val stockQuotes = em.createQuery("select sq from StockQuote sq, Symbol s where sq.symbol.symbol = :symbol and mod(sq.dayOfYear,:filter) = 0 order by sq.time").setParameter("symbol", symbol).setParameter("filter", filter).getResultList
+	    println("StockQuotes of history: "+stockQuotes.size)
+        if(stockQuotes.size() > 0) {	    	
 //	    	val stockQuotesArr = stockQuotes.toArray
 //	    	val typedStockQuotesArr = stockQuotesArr.asInstanceOf[Array[StockQuote]]
   	    	val myStockQuotes = new ListBuffer[StockQuote]
@@ -63,8 +65,7 @@ trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectCon
   	    	  val quote = stockQuotes.get(i).asInstanceOf[StockQuote]
   	    	  myStockQuotes += quote
   	    	  i += 1;
-  	    	}  
-        	println("List prepared")
+  	    	}          	
 //	    	val myStockQuotes = List.fromArray(typedStockQuotesArr)	    
 	    	myStockQuotes.toList
 	    } else  {
