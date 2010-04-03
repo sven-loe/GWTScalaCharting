@@ -15,10 +15,12 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
 package gwt.test.components
 
 import gwt.test.entities._
+import gwt.test.annotations.Logging
+import gwt.test.annotations.Transaction
  
 trait StockDBServiceComponent {
 	val stockDBService: StockDBService
- 
+ 	
 	trait StockDBService {	  
 	  def getCurrentStockQuote(symbol: String) : gwt.test.client.StockQuote
    

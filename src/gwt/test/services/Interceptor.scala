@@ -15,10 +15,16 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
 package gwt.test.services
  
 trait Interceptor {
-  protected def matches(annotationClass: java.lang.Class[T] forSome {type T <: java.lang.annotation.Annotation}, invocation: Invocation): Boolean = {
+  protected def matches(annotationClass: java.lang.Class[T] forSome {type T <: java.lang.annotation.Annotation}, invocation: Invocation): Boolean = {        
+//    val invocationClass = Class.forName(invocation.target.getClass.getName)
+//    val invocationMethod = invocationClass.getDeclaredMethod(invocation.method.getName, invocation.method.getParameterTypes:_*)
+//    invocationClass.isAnnotationPresent(annotationClass) || 
+//    invocationMethod.isAnnotationPresent(annotationClass) ||
+//    false
     invocation.method.isAnnotationPresent(annotationClass) ||
     invocation.target.getClass.isAnnotationPresent(annotationClass) ||
-    false
+    false   
+//    true
   }
  
   def invoke(invocation: Invocation): AnyRef

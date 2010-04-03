@@ -21,12 +21,14 @@ import gwt.test.services.ComponentContext
 import java.util.Calendar
 import scala.collection.mutable._ 
  
+
 trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectConverter {
 
   @Logging
-  @Transaction 
+  @Transaction
   class StockDBServiceImpl(val context: ComponentContext) extends StockDBService {
-	  def getCurrentStockQuote(symbol: String) : gwt.test.client.StockQuote = {
+	  
+      def getCurrentStockQuote(symbol: String) : gwt.test.client.StockQuote = {
 	    try{
 	      val em = context.getEntityManager()
 	      val stockQuote = em.createQuery("select sq from StockQuote sq, Symbol s where sq.symbol.symbol = :symbol order by sq.time").setParameter("symbol", symbol).setMaxResults(1).getSingleResult.asInstanceOf[StockQuote];

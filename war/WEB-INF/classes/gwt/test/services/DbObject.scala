@@ -23,8 +23,7 @@ object DbObject extends StockImporterComponentImpl with StockDBServiceComponentI
 	val stockImporter = ManagedComponentFactory.createComponent[StockImporter](  
 			classOf[StockImporter],  
 			new ManagedComponentProxy(new StockImporterImpl(context),context)  
-			with LoggingInterceptor
-			with TransactionInterceptor)
+			with LoggingInterceptor)
  
 	val stockDBService = ManagedComponentFactory.createComponent[StockDBService](  
 			classOf[StockDBService],  
