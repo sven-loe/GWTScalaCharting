@@ -20,11 +20,13 @@ import gwt.test.entities._
 import gwt.test.services.ComponentContext
 import java.util.Calendar
 import scala.collection.mutable._ 
+import scala.collection.jcl._
  
 
 trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectConverter {
 
-  
+  @Logging
+  @Transaction
   class StockDBServiceImpl(val context: ComponentContext) extends StockDBService {
 	  
       def getCurrentStockQuote(symbol: String) : gwt.test.client.StockQuote = {
@@ -55,23 +57,15 @@ trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectCon
 	    val stockQuoteCount = em.createQuery("select count(sq) from StockQuote sq where sq.symbol.symbol = :symbol").setParameter("symbol", symbol).getSingleResult.asInstanceOf[Long]	    
 	    var filter = 1L
         if(stockQuoteCount > 1000) filter = (Math.floor(stockQuoteCount / 1000)).toLong 
-        val stockQuotes = em.createQuery("select sq from StockQuote sq, Symbol s where sq.symbol.symbol = :symbol and mod(sq.dayOfYear,:filter) = 0 order by sq.time").setParameter("symbol", symbol).setParameter("filter", filter).getResultList
-	    println("StockQuotes of history: "+stockQuotes.size)
-        if(stockQuotes.size() > 0) {	    	
-//	    	val stockQuotesArr = stockQuotes.toArray
-//	    	val typedStockQuotesArr = stockQuotesArr.asInstanceOf[Array[StockQuote]]
-  	    	val myStockQuotes = new ListBuffer[StockQuote]
-  	    	var i = 0
-  	    	while(i<stockQuotes.size) {  	    	  
-  	    	  val quote = stockQuotes.get(i).asInstanceOf[StockQuote]
-  	    	  myStockQuotes += quote
-  	    	  i += 1;
-  	    	}          	
-//	    	val myStockQuotes = List.fromArray(typedStockQuotesArr)	    
-	    	myStockQuotes.toList
+        val myStockQuotes = em.createQuery("select sq from StockQuote sq, Symbol s where sq.symbol.symbol = :symbol and mod(sq.dayOfYear,:filter) = 0 order by sq.time").setParameter("symbol", symbol).setParameter("filter", filter).getResultList()	     
+//        val stockQuotes = new ArrayList(new java.util.ArrayList[StockQuote](myStockQuotes.asInstanceOf[java.util.List[StockQuote]]))
+        val stockQuotesArr = myStockQuotes.toArray
+        val stockQuotes = List.fromArray(stockQuotesArr.asInstanceOf[Array[StockQuote]])
+        println("StockQuotes of history: "+stockQuotes.size)
+        if(stockQuotes.size > 0) {	    	
+        	stockQuotes.toList
 	    } else  {
-	    	val myStockQuotes = Nil
-	    	myStockQuotes
+	    	Nil
 	    }
 	  }
    

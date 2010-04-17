@@ -14,11 +14,20 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
 
 package gwt.test.services
 
-import javax.persistence.Persistence;
 import gwt.test.components._
 
-object DbObject {  		
-   private val context = new ComponentContext("jpa", true)
-	
-   val factory = new ComponentFactory(context)
-} 
+class ComponentFactory(val context: ComponentContext) extends StockImporterComponentImpl with StockDBServiceComponentImpl {
+  
+  val stockImporter = ManagedComponentFactory.createComponent[StockImporter](  
+			classOf[StockImporter],  
+			new ManagedComponentProxy(new StockImporterImpl(context),context)  
+			with LoggingInterceptor
+			with TransactionInterceptor)
+ 
+  val stockDBService = ManagedComponentFactory.createComponent[StockDBService](  
+			classOf[StockDBService],  
+			new ManagedComponentProxy(new StockDBServiceImpl(context),context)  
+			with LoggingInterceptor
+			with TransactionInterceptor)
+ 
+}

@@ -29,13 +29,13 @@ class ChartingServiceImpl extends RemoteServiceServlet with ChartingService {
   }
   
   override def getLastStockQuote(symbol: String) : StockQuote = {
-    val jpaSq = DbObject.stockDBService.getCurrentStockQuote(symbol)
+    val jpaSq = DbObject.factory.stockDBService.getCurrentStockQuote(symbol)
     jpaSq    
   }
    
   override def importStockQuotes(symbol: String) : java.lang.Long = {
-    val stockQuotes = DbObject.stockImporter.importStockHistory(symbol)
-    val stockQuoteNumber = DbObject.stockImporter.storeStockHistory(stockQuotes)
-    stockQuoteNumber
+    val stockQuotes = DbObject.factory.stockImporter.importStockHistory(symbol)
+    val stockQuoteNumber = DbObject.factory.stockImporter.storeStockHistory(stockQuotes)
+    stockQuoteNumber 
   }
 }
