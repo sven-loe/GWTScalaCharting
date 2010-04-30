@@ -21,6 +21,7 @@ import gwt.test.services.ComponentContext
 import java.util.Calendar
 import scala.collection.mutable._ 
 import scala.collection.jcl._
+import gwt.test.persistence._
  
 
 trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectConverter {
@@ -32,7 +33,8 @@ trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectCon
       def getCurrentStockQuote(symbol: String) : gwt.test.client.StockQuote = {
 	    try{
 	      val em = context.getEntityManager()
-	      val stockQuote = em.createQuery("select sq from StockQuote sq, Symbol s where sq.symbol.symbol = :symbol order by sq.time").setParameter("symbol", symbol).setMaxResults(1).getSingleResult.asInstanceOf[StockQuote];
+	      val sQuery = new SQuery(em.createQuery("select sq from StockQuote sq, Symbol s where sq.symbol.symbol = :symbol order by sq.time desc").setParameter("symbol", symbol).setMaxResults(1))
+	      val stockQuote = sQuery.getSingleResult[StockQuote]
 	      getGwtStockQuote(stockQuote)
 	    } catch {
 	      case ex: Exception => {
@@ -54,13 +56,12 @@ trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectCon
    
 	  def getStockHistory(symbol: String) : List[StockQuote] = {
 	    val em = context.getEntityManager()	 
-	    val stockQuoteCount = em.createQuery("select count(sq) from StockQuote sq where sq.symbol.symbol = :symbol").setParameter("symbol", symbol).getSingleResult.asInstanceOf[Long]	    
+	    val sQuery = new SQuery(em.createQuery("select count(sq) from StockQuote sq where sq.symbol.symbol = :symbol").setParameter("symbol", symbol))
+	    val stockQuoteCount = sQuery.getSingleResult[Long]	    
 	    var filter = 1L
         if(stockQuoteCount > 1000) filter = (Math.floor(stockQuoteCount / 1000)).toLong 
-        val myStockQuotes = em.createQuery("select sq from StockQuote sq, Symbol s where sq.symbol.symbol = :symbol and mod(sq.dayOfYear,:filter) = 0 order by sq.time").setParameter("symbol", symbol).setParameter("filter", filter).getResultList()	     
-//        val stockQuotes = new ArrayList(new java.util.ArrayList[StockQuote](myStockQuotes.asInstanceOf[java.util.List[StockQuote]]))
-        val stockQuotesArr = myStockQuotes.toArray
-        val stockQuotes = List.fromArray(stockQuotesArr.asInstanceOf[Array[StockQuote]])
+        val sQuery1 = new SQuery(em.createQuery("select sq from StockQuote sq, Symbol s where sq.symbol.symbol = :symbol and mod(sq.dayOfYear,:filter) = 0 order by sq.time").setParameter("symbol", symbol).setParameter("filter", filter))
+        val stockQuotes = sQuery1.getResultList[StockQuote]	     
         println("StockQuotes of history: "+stockQuotes.size)
         if(stockQuotes.size > 0) {	    	
         	stockQuotes.toList
@@ -71,14 +72,12 @@ trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectCon
    
 	  def getSymbols() : List[Symbol] = {
 	    val em = context.getEntityManager()
-	    val symbols = em.createQuery("select s from Symbol s order by s.symbol").getResultList()
-	    if(symbols.size() > 0) {
-	    	val symbolsArr = symbols.toArray
-	    	val mySymbols = List.fromArray(symbolsArr.asInstanceOf[Array[Symbol]])
-	    	mySymbols
+	    val sQuery = new SQuery(em.createQuery("select s from Symbol s order by s.symbol"))
+	    val symbols = sQuery.getResultList[Symbol]
+	    if(symbols.size > 0) {
+	    	symbols
 	    } else {
-	    	val mySymbols = Nil
-	    	mySymbols
+	    	Nil
 	    }
 	  }
   }
