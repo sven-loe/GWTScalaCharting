@@ -15,6 +15,7 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
 package gwt.test.services
 
 import javax.persistence.Persistence
+import javax.persistence.FlushModeType
 import javax.persistence.EntityManagerFactory
 import javax.persistence.EntityManager
 import javax.jdo.JDOEnhancer
@@ -40,7 +41,9 @@ class ComponentContext() {
 
 	def getEntityManager() : EntityManager = {   		
 		if(threadLocal.get == null) {			
-			threadLocal.set(entityManagerFactory.createEntityManager())
+			val em = entityManagerFactory.createEntityManager
+			em.setFlushMode(FlushModeType.COMMIT)
+			threadLocal.set(em)
 			threadLocal.get  			
 		} else {
 			threadLocal.get

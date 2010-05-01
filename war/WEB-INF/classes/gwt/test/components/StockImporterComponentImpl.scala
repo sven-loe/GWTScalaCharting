@@ -22,6 +22,7 @@ import gwt.test.entities._
 import gwt.test.annotations.Logging
 import gwt.test.annotations.LogLevel
 import gwt.test.services.ComponentContext
+import gwt.test.persistence.SQuery
 
 trait StockImporterComponentImpl extends StockImporterComponent {
 	 
@@ -64,7 +65,7 @@ trait StockImporterComponentImpl extends StockImporterComponent {
 	  val em = context.getEntityManager
 	  var quoteCount = 0L
 	  if(!quotes.isEmpty) {
-	    val symbol = quotes.head.symbol
+	    var symbol = quotes.head.symbol
 //	    transaction(em,em => {
 //	    	val oldStockQuotes = em.createQuery("select sq from StockQuote sq where sq.symbol.symbol=:symbol").setParameter("symbol",symbol.symbol).getResultList()
 //	    	val oldQuotes = List.fromArray(oldStockQuotes.toArray)
@@ -72,8 +73,8 @@ trait StockImporterComponentImpl extends StockImporterComponent {
             var tx = em.getTransaction
             try{
             	tx.begin
-            	val mySymbol = em.createQuery("select sym from Symbol sym where sym.symbol=:symbol").setParameter("symbol", symbol.symbol).getSingleResult;
-            	em.remove(mySymbol);
+            	val sQuery = new SQuery(em.createQuery("select sym from Symbol sym where sym.symbol=:symbol").setParameter("symbol", symbol.symbol))
+            	symbol = sQuery.getSingleResult[Symbol]            	
             	tx.commit
             } catch {
               case ex: Exception => {
@@ -81,23 +82,27 @@ trait StockImporterComponentImpl extends StockImporterComponent {
                 tx.rollback                
               }
             }
-            tx = em.getTransaction
-            try{
-	            tx.begin
-	            em.persist(symbol)
-	            tx.commit
-            } catch {
-              case ex: Exception => {
-                println("Persist symbol failed.");
-                tx.rollback
-                throw ex
-              }
-            }
+            if(symbol.id == null) {
+	            tx = em.getTransaction
+	            try{
+		            tx.begin
+		            em.persist(symbol)
+		            tx.commit
+	            } catch {
+	              case ex: Exception => {
+	                println("Persist symbol failed.");
+	                tx.rollback
+	                throw ex
+	              }
+	            }
+            } 
             println("Number of Quotes: "+quotes.length)
             tx = em.getTransaction
             try{
 	            tx.begin
 	            quotes.foreach(quote => {
+	              quote.symbol = symbol
+	              symbol.stockQuotes.add(quote)
 	              em.persist(quote); 
 	              quoteCount +=1;
 	              if(quoteCount % 1000 == 0) {

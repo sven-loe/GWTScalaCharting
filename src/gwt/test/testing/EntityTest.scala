@@ -33,16 +33,13 @@ import gwt.test.components._
 import gwt.test.services._
  
 
-class EntityTest extends JUnitSuite with ShouldMatchersForJUnit with JpaUtil with StockImporterComponentImpl {
+class EntityTest extends JUnitSuite with ShouldMatchersForJUnit {
   val puName = "jpa"
 //  val entityManagerFactory = Persistence.createEntityManagerFactory(puName)
   val logger = Logger.getRootLogger
   val context = new ComponentContext(puName, true)
-  val stockImporter = ManagedComponentFactory.createComponent[StockImporter](  
-			classOf[StockImporter],  
-			new ManagedComponentProxy(new StockImporterImpl(context),context)  
-			with LoggingInterceptor
-			with TransactionInterceptor)
+  
+  val dbObject = DbObject
   
   @Before def initialize() {
     println("init")
@@ -72,10 +69,16 @@ class EntityTest extends JUnitSuite with ShouldMatchersForJUnit with JpaUtil wit
 //    println("done") 
 //  }
  
-  @Test def importerTest() {    
-	val stockQuotes = stockImporter.importStockHistory("ge")
-	stockImporter.storeStockHistory(stockQuotes)
-	println("done")
+  @Test def stockImporterTest() {    
+	val stockQuotes = dbObject.factory.stockImporter.importStockHistory("ge")
+	dbObject.factory.stockImporter.storeStockHistory(stockQuotes)
+	println("StockImporter Test done")
   }
    
+  @Test def symbolImporterTest() {
+    val symbols = dbObject.factory.symbolImporter.importSymbols
+    dbObject.factory.symbolImporter.storeSymbols(symbols)
+    println("SymbolImporter Test done")
+  }
+  
 }

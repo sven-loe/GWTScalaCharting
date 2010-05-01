@@ -25,6 +25,7 @@ object ManagedComponentFactory {
       proxy.target.getClass.getClassLoader,
       Array(intf),
       proxy).asInstanceOf[T]
+  
 }
  
 class ManagedComponentProxy(val target: AnyRef, val context: ComponentContext) extends InvocationHandler {

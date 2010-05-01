@@ -16,7 +16,7 @@ package gwt.test.services
 
 import gwt.test.components._
 
-class ComponentFactory(val context: ComponentContext) extends StockImporterComponentImpl with StockDBServiceComponentImpl {
+class ComponentFactory(val context: ComponentContext) extends StockImporterComponentImpl with StockDBServiceComponentImpl with SymbolImporterComponentImpl {
   
   val stockImporter = ManagedComponentFactory.createComponent[StockImporter](  
 			classOf[StockImporter],  
@@ -27,6 +27,12 @@ class ComponentFactory(val context: ComponentContext) extends StockImporterCompo
   val stockDBService = ManagedComponentFactory.createComponent[StockDBService](  
 			classOf[StockDBService],  
 			new ManagedComponentProxy(new StockDBServiceImpl(context),context)  
+			with LoggingInterceptor
+			with TransactionInterceptor)
+  
+  val symbolImporter = ManagedComponentFactory.createComponent[SymbolImporter](  
+			classOf[SymbolImporter],  
+			new ManagedComponentProxy(new SymbolImporterImpl(context),context)  
 			with LoggingInterceptor
 			with TransactionInterceptor)
  
