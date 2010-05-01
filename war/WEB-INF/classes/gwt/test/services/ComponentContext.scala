@@ -41,8 +41,7 @@ class ComponentContext() {
 
 	def getEntityManager() : EntityManager = {   		
 		if(threadLocal.get == null) {			
-			val em = entityManagerFactory.createEntityManager
-			em.setFlushMode(FlushModeType.COMMIT)
+			val em = entityManagerFactory.createEntityManager			
 			threadLocal.set(em)
 			threadLocal.get  			
 		} else {
