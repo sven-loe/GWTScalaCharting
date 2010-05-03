@@ -44,9 +44,9 @@ class JFreeChartServlet extends HttpServlet {
 //		  } else { 
 //		    timeSeries.addOrUpdate(day, i);
 //          }		    
-//		}
+//		} 
 		var start = System.currentTimeMillis
-		val stockQuotes = DbObject.stockDBService.getStockHistory(symbol)
+		val stockQuotes = DbObject.factory.stockDBService.getStockHistory(symbol)
 		println("Get history from DB: "+(System.currentTimeMillis-start)+" ms");
 		stockQuotes.foreach(sq => {
 			cal.setTime(sq.time) 

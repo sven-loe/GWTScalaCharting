@@ -13,6 +13,7 @@
             <property name="datanucleus.validateTables" value="true"/>
             <property name="datanucleus.validateConstraints" value="false"/>
             <property name="datanucleus.identifier.case" value="LowerCase"/>
+            <property name="datanucleus.rdbms.statementBatchLimit" value="100"/>
         </properties>    
   </persistence-unit> 
 </persistence>

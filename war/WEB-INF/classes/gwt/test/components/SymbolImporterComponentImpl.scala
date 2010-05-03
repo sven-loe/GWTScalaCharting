@@ -29,14 +29,14 @@ trait SymbolImporterComponentImpl extends SymbolImporterComponent {
 	  
     def importSymbols : List[Symbol] = {
 	  	var symbols = List[Symbol]()
-	  	val urlStr = "http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=%1$s"
+	  	val urlStr = "http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=%1$s&render=download"
 	  	val urlStrNyse = String.format(urlStr, "NYSE")
 	  	val urlNyse = new URL(urlStrNyse)  
 	    val sourceNyse = Source.fromURL(urlNyse)
 	    sourceNyse.getLines.foreach(line => {
 	    	val symbol = makeSymbol(line)	    	
-	    	if(symbol.symbol != "Symbol")  {
-	    		symbols = symbol :: symbols
+	    	if(symbol !=  None)  {
+	    		symbols = symbol.get :: symbols
 	    	}
 	    	symbols
 	    })
@@ -45,28 +45,33 @@ trait SymbolImporterComponentImpl extends SymbolImporterComponent {
 	  	val sourceNasdaq = Source.fromURL(urlNasdaq)
 	  	sourceNasdaq.getLines.foreach(line => {
 	  		val symbol = makeSymbol(line) 
-	  		if(symbol.symbol != "Symbol")  {
-	    		symbols = symbol :: symbols
+	  		if(symbol != None)  {
+	    		symbols = symbol.get :: symbols
 	    	}
 	    	symbols
         })
 	  	symbols
       }
  
-    private def makeSymbol(line: String) : Symbol = {
+    private def makeSymbol(line: String) : Option[Symbol] = {
        val symbol = new Symbol
+       try{
 	   val myLine = line.replace("\"","")
 	   val cols = myLine.split(",")
 	   symbol.symbol = cols(0)
 	   symbol.name = cols(1)
 	   symbol.value = java.lang.Long.parseLong(cols(3))
-	   symbol
+       } catch {
+         case ex: Exception => None
+       }
+	   Some(symbol)
     }  
     
       def storeSymbols(symbols: List[Symbol]) : Long = {
-        val symbolCount = 0
+        var symbolCount = 0
         val em = context.getEntityManager
         var tx = em.getTransaction
+        tx.begin
         try{
         	symbols.foreach(symbol => {
         		var mySymbol: Symbol = null
@@ -78,10 +83,18 @@ trait SymbolImporterComponentImpl extends SymbolImporterComponent {
         		    em.persist(symbol)
         		  }        		  
         		}
-        		mySymbol.name = symbol.name
-        		mySymbol.value = symbol.value
-        		em.persist(mySymbol)
-        		tx.commit
+        		if(mySymbol != null) {
+	        		mySymbol.name = symbol.name
+	        		mySymbol.value = symbol.value
+	        		em.persist(mySymbol)
+        		}
+        		symbolCount += 1
+        		if(symbolCount % 500 == 0) {
+        		  tx.commit
+        		  println("Number " + symbolCount)
+        		  tx = em.getTransaction
+        		  tx.begin
+        		}
         	})
         } catch {
           case ex: Exception => {
@@ -90,6 +103,8 @@ trait SymbolImporterComponentImpl extends SymbolImporterComponent {
             throw ex
           } 
         }
+        tx.commit
+        println("Symbols imported " + symbolCount)
         symbolCount
       }
   }

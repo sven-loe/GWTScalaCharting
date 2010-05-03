@@ -41,7 +41,7 @@ class EntityTest extends JUnitSuite with ShouldMatchersForJUnit {
   
   val dbObject = DbObject
   
-  @Before def initialize() {
+  @Before def initialize() : Unit = {
     println("init")
 //    val layout = new SimpleLayout();
 //    val consoleAppender = new ConsoleAppender( layout );
@@ -53,6 +53,12 @@ class EntityTest extends JUnitSuite with ShouldMatchersForJUnit {
 	enhancer.enhance();
   }
  
+  @Test def symbolImporterTest() : Unit = {
+    val symbols = dbObject.factory.symbolImporter.importSymbols
+    dbObject.factory.symbolImporter.storeSymbols(symbols)
+    println("SymbolImporter Test done")
+  }
+  
 //  @Test def insertTest() {	
 //    val entityManager = entityManagerFactory.createEntityManager()
 //    transaction(entityManager, entityManager => {
@@ -69,16 +75,12 @@ class EntityTest extends JUnitSuite with ShouldMatchersForJUnit {
 //    println("done") 
 //  }
  
-  @Test def stockImporterTest() {    
-	val stockQuotes = dbObject.factory.stockImporter.importStockHistory("ge")
-	dbObject.factory.stockImporter.storeStockHistory(stockQuotes)
-	println("StockImporter Test done")
-  }
-   
-  @Test def symbolImporterTest() {
-    val symbols = dbObject.factory.symbolImporter.importSymbols
-    dbObject.factory.symbolImporter.storeSymbols(symbols)
-    println("SymbolImporter Test done")
-  }
+//  @Test def stockImporterTest() {    
+//	val stockQuotes = dbObject.factory.stockImporter.importStockHistory("ge")
+//	dbObject.factory.stockImporter.storeStockHistory(stockQuotes)
+//	println("StockImporter Test done")
+//  }
+     
+  
   
 }
