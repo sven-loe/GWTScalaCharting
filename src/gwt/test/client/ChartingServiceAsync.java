@@ -14,10 +14,13 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
 
 package gwt.test.client;
 
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface ChartingServiceAsync {
 	void getChart(String symbol, TimeFrame timeFrame, AsyncCallback<String> callBack);
 	void getLastStockQuote(String symbol, AsyncCallback<StockQuote> callBack);
 	void importStockQuotes(String symbol, AsyncCallback<Long> callBack);
+	void getSymbols(AsyncCallback<List<Symbol>> callBack);	
 }

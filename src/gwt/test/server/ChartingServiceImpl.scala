@@ -23,7 +23,7 @@ import gwt.test.services.DbObject;
 import java.util.Date;
 
 class ChartingServiceImpl extends RemoteServiceServlet with ChartingService {  
-   
+    
   override def getChart(symbol: String, timeFrame: TimeFrame) : String = {    
     return "<img style=\"border: 0;\" src=\"./gwtcharting/jFreeChart?" + JFreeChartServlet.PARAMETER_SYMBOL + "=" + symbol + "&" + JFreeChartServlet.PARAMETER_TIMEFRAME + "=" + timeFrame.getTimeFrame() + "\" " + "/>";
   }
@@ -37,5 +37,10 @@ class ChartingServiceImpl extends RemoteServiceServlet with ChartingService {
     val stockQuotes = DbObject.factory.stockImporter.importStockHistory(symbol)
     val stockQuoteNumber = DbObject.factory.stockImporter.storeStockHistory(stockQuotes)
     stockQuoteNumber 
+  }
+  
+  override def getSymbols() : java.util.List[gwt.test.client.Symbol] = {
+    val symbols = DbObject.factory.stockDBService.getSymbols()
+    symbols
   }
 }

@@ -48,4 +48,13 @@ trait ObjectConverter {
 		stockQuote.volume = java.lang.Long.parseLong(gwtStockQuote.getVolume)
 		stockQuote
 	}
+ 
+	def getGwtSymbol(symbol: Symbol) : gwt.test.client.Symbol = {
+	  val gwtSymbol = new gwt.test.client.Symbol 
+	  gwtSymbol.setId(symbol.id)
+	  gwtSymbol.setSymbol(symbol.symbol)
+	  gwtSymbol.setName(symbol.name)
+	  gwtSymbol.setValue(symbol.value)
+	  gwtSymbol 
+	}
 }

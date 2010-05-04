@@ -14,6 +14,8 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
 
 package gwt.test.client;
 
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -22,4 +24,5 @@ public interface ChartingService extends RemoteService {
 	String getChart(String symbol, TimeFrame timeFrame);
 	StockQuote getLastStockQuote(String symbol);
 	Long importStockQuotes(String symbol);
+	List<Symbol> getSymbols();
 }
