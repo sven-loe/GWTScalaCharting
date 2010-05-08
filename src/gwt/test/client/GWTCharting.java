@@ -14,7 +14,9 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
 
 package gwt.test.client;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -30,8 +32,10 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -46,7 +50,7 @@ public class GWTCharting implements EntryPoint {
 			+ "attempting to contact the server. Please check your network " + "connection and try again.";
 
 	private final ChartingServiceAsync chartingService = GWT.create(ChartingService.class);
-	
+
 	public void onModuleLoad() {
 		// Create the popup dialog box
 		final DialogBox dialogBox = new DialogBox();
@@ -62,12 +66,42 @@ public class GWTCharting implements EntryPoint {
 		dialogVPanel.add(textToServerLabel);
 		dialogVPanel.add(closeButton);
 		dialogBox.setWidget(dialogVPanel);
-		
+
 		final Label nameLabel = new Label("Name:");
 		final Label symbolLabel = new Label("Symbol:");
 		final Label timeFrameLabel = new Label("Timeframe:");
-		final TextBox name = new TextBox();
-		final TextBox symbol = new TextBox();
+		// final TextBox name = new TextBox();
+		final MultiWordSuggestOracle nameOracle = new MultiWordSuggestOracle();
+		final MultiWordSuggestOracle symbolOracle = new MultiWordSuggestOracle();
+		final SuggestBox name = new SuggestBox(nameOracle);
+		final SuggestBox symbol = new SuggestBox(symbolOracle);
+
+		final List<Symbol> symbols = new ArrayList<Symbol>();
+		chartingService.getSymbols(new AsyncCallback<List<Symbol>>() {
+			public void onFailure(Throwable caught) {
+				// Show the RPC error message to the user
+				dialogBox.setText("Remote Procedure Call - Failure");
+				serverResponseLabel.addStyleName("serverResponseLabelError");
+				serverResponseLabel.setHTML(SERVER_ERROR);
+				dialogBox.center();
+
+			}
+
+			public void onSuccess(List<Symbol> result) {
+				symbols.addAll(result);
+				long symbolCount = 0;			
+				for (Symbol mySymbol : symbols) {
+					if (mySymbol.getName() != null || mySymbol.getName() != null) {
+						nameOracle.add(mySymbol.getName());
+						symbolOracle.add(mySymbol.getSymbol());
+						symbolCount++;
+					}
+				}
+				System.out.println("Symbols added: "+symbolCount);
+			}
+		});
+
+		// final TextBox symbol = new TextBox();
 		final ListBox timeframe = new ListBox();
 		timeframe.addItem("All", "All");
 		timeframe.addItem("5 Years", "5Y");
@@ -178,7 +212,7 @@ public class GWTCharting implements EntryPoint {
 			 */
 			public void onClick(ClickEvent event) {
 				Widget sender = (Widget) event.getSource();
-				if(sender == showButton) {
+				if (sender == showButton) {
 					sendNameToServer();
 				} else {
 					importStockQuotes();
@@ -189,34 +223,36 @@ public class GWTCharting implements EntryPoint {
 				importButton.setEnabled(false);
 				chartingService.importStockQuotes(symbol.getText(), new AsyncCallback<Long>() {
 					public void onFailure(Throwable caught) {
-							// Show the RPC error message to the user
-							dialogBox.setText("Remote Procedure Call - Failure");
-							serverResponseLabel.addStyleName("serverResponseLabelError");
-							serverResponseLabel.setHTML(SERVER_ERROR);
-							dialogBox.center();
+						// Show the RPC error message to the user
+						dialogBox.setText("Remote Procedure Call - Failure");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(SERVER_ERROR);
+						dialogBox.center();
 
 					}
+
 					public void onSuccess(Long result) {
 						dialogBox.setText("Successfuly imported StockQuotes.");
-						serverResponseLabel.setHTML("Successfuly imported " + result + "StockQuotes");						
+						serverResponseLabel.setHTML("Successfuly imported " + result + "StockQuotes");
 						dialogBox.center();
 					}
-					
-				}); 
+
+				});
 				importButton.setEnabled(true);
 			}
-			
+
 			private void sendNameToServer() {
 				showButton.setEnabled(false);
 				chartingService.getLastStockQuote(symbol.getText(), new AsyncCallback<StockQuote>() {
 					public void onFailure(Throwable caught) {
-							// Show the RPC error message to the user
-							dialogBox.setText("Remote Procedure Call - Failure");
-							serverResponseLabel.addStyleName("serverResponseLabelError");
-							serverResponseLabel.setHTML(SERVER_ERROR);
-							dialogBox.center();
+						// Show the RPC error message to the user
+						dialogBox.setText("Remote Procedure Call - Failure");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(SERVER_ERROR);
+						dialogBox.center();
 
 					}
+
 					public void onSuccess(StockQuote result) {
 						date.setText("Last Quote: " + result.getTime().toString());
 						dayHigh.setText("High: " + result.getDayHigh());
@@ -225,9 +261,9 @@ public class GWTCharting implements EntryPoint {
 						volume.setText("Volume: " + result.getVolume());
 						adjClose.setText("Adj. Close: " + result.getAdjLast());
 					}
-					
+
 				});
-				chartingService.getChart(symbol.getText(), TimeFrame.All, new AsyncCallback<String>() {				
+				chartingService.getChart(symbol.getText(), TimeFrame.All, new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
 						// Show the RPC error message to the user
 						dialogBox.setText("Remote Procedure Call - Failure");
@@ -246,7 +282,7 @@ public class GWTCharting implements EntryPoint {
 
 			public void onKeyUp(KeyUpEvent event) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		}
 

@@ -78,7 +78,7 @@ trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectCon
         symbols.foreach(symbol => {
         	val mySymbol = getGwtSymbol(symbol)
             mySymbols.add(mySymbol)
-        })
+        })        
     	mySymbols
 	  }
   }

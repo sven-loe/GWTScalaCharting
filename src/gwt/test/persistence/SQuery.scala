@@ -19,15 +19,15 @@ import javax.persistence.Query
 import java.util.Calendar
 import javax.persistence.TemporalType
 import java.util.Date
+import scala.collection.jcl.ArrayList
 
 
 class SQuery(query: Query) {
 	def executeUpdate = query.executeUpdate
-	def getResultList[T] = {
+	def getResultList[T] : List[T]= {
 	  val myStockQuotes = query.getResultList	     
-//        val stockQuotes = new ArrayList(new java.util.ArrayList[StockQuote](myStockQuotes.asInstanceOf[java.util.List[StockQuote]]))
-        val stockQuotesArr = myStockQuotes.toArray
-        List.fromArray(stockQuotesArr.asInstanceOf[Array[T]])
+      val stockQuotes = new ArrayList(new java.util.ArrayList[T](myStockQuotes.asInstanceOf[java.util.List[T]]))
+      stockQuotes.toList
 	}
 	def getSingleResult[T] = query.getSingleResult.asInstanceOf[T]
 	def setFirstResult(startPosition: Int)  = query.setFirstResult(startPosition: Int)

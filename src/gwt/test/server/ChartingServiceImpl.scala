@@ -32,7 +32,7 @@ class ChartingServiceImpl extends RemoteServiceServlet with ChartingService {
     val jpaSq = DbObject.factory.stockDBService.getCurrentStockQuote(symbol)
     jpaSq    
   }
-   
+  
   override def importStockQuotes(symbol: String) : java.lang.Long = {
     val stockQuotes = DbObject.factory.stockImporter.importStockHistory(symbol)
     val stockQuoteNumber = DbObject.factory.stockImporter.storeStockHistory(stockQuotes)
@@ -40,7 +40,8 @@ class ChartingServiceImpl extends RemoteServiceServlet with ChartingService {
   }
   
   override def getSymbols() : java.util.List[gwt.test.client.Symbol] = {
-    val symbols = DbObject.factory.stockDBService.getSymbols()
+    val symbols = DbObject.factory.stockDBService.getSymbols
+    println("Number of symbols: "+ symbols.size)
     symbols
   }
 }
