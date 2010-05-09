@@ -24,6 +24,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -37,6 +39,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -265,6 +268,12 @@ public class GWTCharting implements EntryPoint {
 						dialogBox.setText("Successfuly imported StockQuotes.");
 						serverResponseLabel.setHTML("Successfuly imported " + result + "StockQuotes");
 						dialogBox.center();
+						dialogBox.addCloseHandler(new CloseHandler<PopupPanel>() {
+							@Override
+							public void onClose(CloseEvent<PopupPanel> event) {
+								dialogBox.hide();
+							}
+						});
 					}
 
 				});

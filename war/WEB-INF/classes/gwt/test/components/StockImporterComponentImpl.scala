@@ -102,8 +102,7 @@ trait StockImporterComponentImpl extends StockImporterComponent {
 	            tx.begin
 	            quotes.foreach(quote => {
 	              quote.symbol = symbol
-	              symbol.stockQuotes.add(quote)
-	              em.persist(quote); 
+	              em.persist(quote); 	              
 	              quoteCount +=1;
 	              if(quoteCount % 1000 == 0) {
 	                tx.commit

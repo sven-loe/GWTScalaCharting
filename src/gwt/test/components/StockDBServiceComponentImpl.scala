@@ -57,10 +57,11 @@ trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectCon
 	  def getStockHistory(symbol: String) : List[StockQuote] = {
 	    val em = context.getEntityManager()	 
 	    val sQuery = new SQuery(em.createQuery("select count(sq) from StockQuote sq where sq.symbol.symbol = :symbol").setParameter("symbol", symbol))
-	    val stockQuoteCount = sQuery.getSingleResult[Long]	    
+	    val stockQuoteCount = sQuery.getSingleResult[Long]	
+	    println("Availiable quotes: "+stockQuoteCount)
 	    var filter = 1L
         if(stockQuoteCount > 1000) filter = (Math.floor(stockQuoteCount / 1000)).toLong 
-        val sQuery1 = new SQuery(em.createQuery("select sq from StockQuote sq, Symbol s where sq.symbol.symbol = :symbol and mod(sq.dayOfYear,:filter) = 0 order by sq.time").setParameter("symbol", symbol).setParameter("filter", filter))
+        val sQuery1 = new SQuery(em.createQuery("select sq from StockQuote sq, Symbol s where sq.symbol.symbol = :symbol and mod(sq.dayOfYear,:filter) = 0 order by sq.time").setParameter("symbol", symbol).setParameter("filter", filter))        
         val stockQuotes = sQuery1.getResultList[StockQuote]	     
         println("StockQuotes of history: "+stockQuotes.size)
         if(stockQuotes.size > 0) {	    	
