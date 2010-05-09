@@ -24,6 +24,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -39,6 +43,7 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 public class GWTCharting implements EntryPoint {
 
@@ -71,12 +76,37 @@ public class GWTCharting implements EntryPoint {
 		final Label symbolLabel = new Label("Symbol:");
 		final Label timeFrameLabel = new Label("Timeframe:");
 		// final TextBox name = new TextBox();
+		final List<Symbol> symbols = new ArrayList<Symbol>();
 		final MultiWordSuggestOracle nameOracle = new MultiWordSuggestOracle();
 		final MultiWordSuggestOracle symbolOracle = new MultiWordSuggestOracle();
-		final SuggestBox name = new SuggestBox(nameOracle);
 		final SuggestBox symbol = new SuggestBox(symbolOracle);
+		final SuggestBox name = new SuggestBox(nameOracle);		
+		name.addSelectionHandler(new SelectionHandler<Suggestion>() {
+			@Override
+			public void onSelection(SelectionEvent<Suggestion> event) {
+				String myName = event.getSelectedItem().getReplacementString();
+				for(Symbol mySymbol: symbols) {
+					if(myName != null && myName.equalsIgnoreCase(mySymbol.getName())) {
+						symbol.setText(mySymbol.getSymbol());
+						break;
+					}
+				}
+			}
+		});
 
-		final List<Symbol> symbols = new ArrayList<Symbol>();
+		symbol.addSelectionHandler(new SelectionHandler<Suggestion>() {
+			@Override
+			public void onSelection(SelectionEvent<Suggestion> event) {
+				String symbolStr = event.getSelectedItem().getReplacementString();
+				for(Symbol mySymbol: symbols) {
+					if(symbolStr != null && symbolStr.equalsIgnoreCase(mySymbol.getSymbol())) {
+						name.setText(mySymbol.getName());
+						break;
+					}
+				}
+			}
+		});
+		
 		chartingService.getSymbols(new AsyncCallback<List<Symbol>>() {
 			public void onFailure(Throwable caught) {
 				// Show the RPC error message to the user
