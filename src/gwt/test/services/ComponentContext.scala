@@ -26,7 +26,7 @@ class ComponentContext() {
 	private var entityManagerFactory: EntityManagerFactory = null
 	private val lock: AnyRef = new Object
  
-	def this(emfName: String, enhanceEntities: boolean) = {	  
+	def this(emfName: String, enhanceEntities: Boolean) = {	  
 	  this()
 	  lock.synchronized {
 		  if(enhanceEntities) {

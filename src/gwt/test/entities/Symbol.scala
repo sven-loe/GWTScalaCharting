@@ -12,24 +12,23 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
 
-package gwt.test.entities
+package gwt.test.entities;
 
-import javax.persistence.Entity;
-import scala.reflect.BeanProperty;
-import javax.persistence.GeneratedValue;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
+import javax.persistence.Entity;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.OneToMany
+import javax.persistence.Id
+import javax.persistence.GeneratedValue
+
+import scala.reflect.BeanProperty;
  
 @Entity
 @serializable
-@SequenceGenerator{val name="SymbolSeq", val sequenceName="SymSequence"}
+@SequenceGenerator(name="SymbolSeq", sequenceName="SymSequence")
 class Symbol { 
  
-	@Id @GeneratedValue{val generator="SymbolSeq"}
+	@Id @GeneratedValue(generator="SymbolSeq")
 	@BeanProperty
 	var id: Long  = _
 	@BeanProperty
@@ -39,6 +38,7 @@ class Symbol {
 	@BeanProperty
 	var value: Long = _
  	@BeanProperty 	 	
- 	@OneToMany{val cascade=Array(CascadeType.REMOVE), val mappedBy="symbol", val targetEntity=classOf[StockQuote]}
+ 	@OneToMany(cascade=Array(CascadeType.REMOVE), mappedBy="symbol", targetEntity=classOf[StockQuote])
  	var stockQuotes: java.util.Collection[StockQuote] = new java.util.ArrayList[StockQuote];
+ 	
 }

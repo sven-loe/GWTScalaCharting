@@ -20,7 +20,6 @@ import gwt.test.entities._
 import gwt.test.services.ComponentContext
 import java.util.Calendar
 import scala.collection.mutable._ 
-import scala.collection.jcl._
 import gwt.test.persistence._
  
 

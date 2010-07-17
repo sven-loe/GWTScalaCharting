@@ -12,26 +12,24 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
 
-package gwt.test.entities
+package gwt.test.entities;
 
 import javax.persistence.Entity;
-import scala.reflect.BeanProperty;
 import javax.persistence.GeneratedValue;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Id;
-import java.util.Date;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
+import javax.persistence.SequenceGenerator;
+import scala.reflect.BeanProperty
+import java.util.Date
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
  
 @Entity
 @serializable
-@SequenceGenerator{val name="StockQuoteSeq", val sequenceName="SQSequence"}
+@SequenceGenerator(name="StockQuoteSeq", sequenceName="SQSequence")
 class StockQuote { 
   
-  @BeanProperty
-  @Id @GeneratedValue{val generator="StockQuoteSeq"}  
+  @BeanProperty 
+  @Id @GeneratedValue(generator="StockQuoteSeq")  
   var id: Long = _
   @BeanProperty
   var currency: String = _
@@ -51,6 +49,7 @@ class StockQuote {
   var dayOfYear: Long = _    
   @BeanProperty
   @ManyToOne 
-  @JoinColumn{val name="symbol_id"}
+  @JoinColumn(name="symbol_id")
   var symbol: Symbol = _
+  
 }
