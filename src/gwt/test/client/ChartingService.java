@@ -26,4 +26,3 @@ public interface ChartingService extends RemoteService {
 	Long importStockQuotes(String symbol);
 	List<Symbol> getSymbols();
 }
- 

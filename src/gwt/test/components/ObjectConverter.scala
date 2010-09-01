@@ -14,7 +14,7 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
 
 package gwt.test.components
 
-import gwt.test.entities._
+import gwt.test.entities.jpa._
 import java.util.Calendar
 import java.util.Date
  
@@ -56,5 +56,26 @@ trait ObjectConverter {
 	  gwtSymbol.setName(symbol.name)
 	  gwtSymbol.setValue(symbol.value)
 	  gwtSymbol 
+	}
+	
+	def getMongoStockQuote(jpaStockQuote: StockQuote) : gwt.test.entities.mongo.StockQuote = {
+		val mongoSQ = new gwt.test.entities.mongo.StockQuote
+		mongoSQ.time = jpaStockQuote.time
+		mongoSQ.currency = jpaStockQuote.currency
+		mongoSQ.last = jpaStockQuote.last
+		mongoSQ.dayHigh = jpaStockQuote.dayHigh
+		mongoSQ.dayLow = jpaStockQuote.dayLow
+		mongoSQ.volume = jpaStockQuote.volume
+		mongoSQ.adjLast = jpaStockQuote.adjLast
+		mongoSQ.dayOfYear = jpaStockQuote.dayOfYear
+		mongoSQ
+	}
+	
+	def getMongoSymbol(jpaSymbol: Symbol) :gwt.test.entities.mongo.Symbol = {
+		val mongoSym = new gwt.test.entities.mongo.Symbol
+		mongoSym.symbol = jpaSymbol.symbol
+		mongoSym.name = jpaSymbol.name
+		mongoSym.value = jpaSymbol.value
+		mongoSym
 	}
 }

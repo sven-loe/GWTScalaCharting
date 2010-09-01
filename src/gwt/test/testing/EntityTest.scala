@@ -33,7 +33,7 @@ import gwt.test.components._
 import gwt.test.services._
  
 
-class EntityTest {
+class EntityTest  {
   val puName = "jpa"
 //  val entityManagerFactory = Persistence.createEntityManagerFactory(puName)
   val logger = Logger.getRootLogger

@@ -14,7 +14,7 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>. */
 
 package gwt.test.components
 
-import gwt.test.entities._
+import gwt.test.entities.jpa._
 import gwt.test.annotations.Logging
 import gwt.test.annotations.Transaction
  
@@ -24,7 +24,7 @@ trait StockDBServiceComponent {
 	trait StockDBService {	  
 	  def getCurrentStockQuote(symbol: String) : gwt.test.client.StockQuote
    
-	  def getStockHistory(symbol: String) : List[StockQuote]
+	  def getStockHistory(symbol: String) : List[gwt.test.client.StockQuote]
    
 	  def getSymbols() : java.util.List[gwt.test.client.Symbol]
 	}

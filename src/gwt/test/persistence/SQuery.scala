@@ -19,13 +19,12 @@ import javax.persistence.Query
 import java.util.Calendar
 import javax.persistence.TemporalType
 import java.util.Date
-import gwt.test.entities._
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.JavaConversions._
 
 
 class SQuery(query: Query) {
-	def executeUpdate = query.executeUpdate
+	def executeUpdate = query.executeUpdate	
 	def getResultList[T] : List[T]= {
 	  val myStockQuotes = query.getResultList	
 	  val stockQuotes = new ArrayBuffer[T]

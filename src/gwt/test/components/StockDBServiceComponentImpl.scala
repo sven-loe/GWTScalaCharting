@@ -16,7 +16,7 @@ package gwt.test.components
 
 import gwt.test.annotations.Logging;
 import gwt.test.annotations.Transaction;
-import gwt.test.entities._
+import gwt.test.entities.jpa._
 import gwt.test.services.ComponentContext
 import java.util.Calendar
 import scala.collection.mutable._ 
@@ -53,7 +53,7 @@ trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectCon
 	    }
 	  }
    
-	  def getStockHistory(symbol: String) : List[StockQuote] = {
+	  def getStockHistory(symbol: String) : List[gwt.test.client.StockQuote] = {
 	    val em = context.getEntityManager()	 
 	    val sQuery = new SQuery(em.createQuery("select count(sq) from StockQuote sq where sq.symbol.symbol = :symbol").setParameter("symbol", symbol))
 	    val stockQuoteCount = sQuery.getSingleResult[Long]	
@@ -64,7 +64,8 @@ trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectCon
         val stockQuotes = sQuery1.getResultList[StockQuote]	     
         println("StockQuotes of history: "+stockQuotes.size)
         if(stockQuotes.size > 0) {	    	
-        	stockQuotes.toList
+        	val jpaStockQuotes = stockQuotes.toList
+        	jpaStockQuotes.map(jpaQuote => getGwtStockQuote(jpaQuote))        	
 	    } else  {
 	    	Nil
 	    }

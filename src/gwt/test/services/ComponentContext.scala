@@ -20,11 +20,17 @@ import javax.persistence.EntityManagerFactory
 import javax.persistence.EntityManager
 import javax.jdo.JDOEnhancer
 import javax.jdo.JDOHelper
+import com.mongodb._
+import gwt.test.entities.mongo._
+import com.osinka.mongodb._
+import com.osinka.mongodb.shape._
  
 class ComponentContext() {	
 	private val threadLocal = new ThreadLocal[EntityManager]
 	private var entityManagerFactory: EntityManagerFactory = null
 	private val lock: AnyRef = new Object
+	private val mongo = new Mongo
+	private val tlStockQuotesDB = new ThreadLocal[DB]	
  
 	def this(emfName: String, enhanceEntities: Boolean) = {	  
 	  this()
@@ -35,10 +41,32 @@ class ComponentContext() {
 			  enhancer.addPersistenceUnit(emfName);
 			  enhancer.enhance();	  
 		  }
-		  entityManagerFactory = Persistence.createEntityManagerFactory(emfName)		  
+		  if(emfName != null) entityManagerFactory = Persistence.createEntityManagerFactory(emfName)		  		  
 	  }
 	}
 
+	def getStockQuotesDB() : DB = {
+		if(tlStockQuotesDB.get == null) {
+		  val db = mongo.getDB("StockQuotesDB")
+		  tlStockQuotesDB.set(db)
+		  tlStockQuotesDB.get
+		} else {
+			tlStockQuotesDB.get
+		}
+	}
+	
+	def getSymCollection() : ShapedCollection[Symbol] = {
+		val db = tlStockQuotesDB.get
+		val dbCol2 = db.getCollection("Symbols")
+		dbCol2.of(Symbol)		
+	}
+	
+	def getSQCollection() : ShapedCollection[StockQuote] = {
+		val db = tlStockQuotesDB.get
+		val dbCol1 = db.getCollection("StockQuotes")
+		dbCol1.of(StockQuote)
+	}
+	
 	def getEntityManager() : EntityManager = {   		
 		if(threadLocal.get == null) {			
 			val em = entityManagerFactory.createEntityManager			

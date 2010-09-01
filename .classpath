@@ -119,5 +119,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/datanucleus-rdbms-1.1.5.jar"/>
 	<classpathentry kind="lib" path="/opt/eclipse3.5/configuration/org.eclipse.osgi/bundles/1234/1/.cp/lib/scala-library.jar" sourcepath="/opt/eclipse3.5/configuration/org.eclipse.osgi/bundles/1234/1/.cp/lib/scala-library-src.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mongo-2.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mongo-scala-driver_2.8.0-0.8.2.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
