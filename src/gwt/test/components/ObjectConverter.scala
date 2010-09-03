@@ -34,6 +34,20 @@ trait ObjectConverter {
 	  gwtStockQuote
 	}	
   
+	def getGwtStockQuote(stockQuote: gwt.test.entities.mongo.StockQuote) : gwt.test.client.StockQuote = {
+	  val gwtStockQuote = new gwt.test.client.StockQuote
+	  gwtStockQuote.setAdjLast((stockQuote.adjLast / 100).toString)
+	  gwtStockQuote.setCurrency(stockQuote.currency)
+	  gwtStockQuote.setDayHigh((stockQuote.dayHigh / 100).toString)
+	  gwtStockQuote.setDayLow((stockQuote.dayLow / 100).toString)	  
+	  gwtStockQuote.setLast((stockQuote.last / 100).toString)
+//	  gwtStockQuote.setName(stockQuote.symbol.name)
+//      gwtStockQuote.setSymbol(stockQuote.symbol.symbol)
+      gwtStockQuote.setTime(new Date(stockQuote.time.getTime))
+      gwtStockQuote.setVolume(stockQuote.volume.toString)
+	  gwtStockQuote
+	}
+	
 	def getEntityStockQuote(gwtStockQuote: gwt.test.client.StockQuote) : StockQuote = {
 		val stockQuote = new StockQuote
 		stockQuote.symbol = new Symbol
@@ -52,6 +66,14 @@ trait ObjectConverter {
 	def getGwtSymbol(symbol: Symbol) : gwt.test.client.Symbol = {
 	  val gwtSymbol = new gwt.test.client.Symbol 
 	  gwtSymbol.setId(symbol.id)
+	  gwtSymbol.setSymbol(symbol.symbol)
+	  gwtSymbol.setName(symbol.name)
+	  gwtSymbol.setValue(symbol.value)
+	  gwtSymbol 
+	}
+	
+	def getGwtSymbol(symbol: gwt.test.entities.mongo.Symbol) : gwt.test.client.Symbol = {
+	  val gwtSymbol = new gwt.test.client.Symbol 	  
 	  gwtSymbol.setSymbol(symbol.symbol)
 	  gwtSymbol.setName(symbol.name)
 	  gwtSymbol.setValue(symbol.value)
