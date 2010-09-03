@@ -1,11 +1,12 @@
 package gwt.test.components
 
-import gwt.test.annotations.Logging
+import gwt.test.annotations._
 import gwt.test.services.ComponentContext
 import gwt.test.entities.mongo._
 
 trait StockImporterMongoComponentImpl extends StockImporterComponent {
 
+	@MongoTransaction
 	@Logging  
 	class StockImporterImpl(val context: ComponentContext) extends StockImporter with ObjectConverter {
 		
@@ -14,9 +15,7 @@ trait StockImporterMongoComponentImpl extends StockImporterComponent {
 		}
 		
 		override def updateStockHistory(quotes: List[gwt.test.entities.jpa.StockQuote]) : Long = {
-			val db = context.getStockQuotesDB
 			var number = 0
-			db.requestStart()
 			val symCol = context.getSymCollection
 			if(quotes == null || quotes.head == null || quotes.head.symbol == null) return number
 			val symbolQuery = Symbol where (Symbol.symbol is quotes.head.symbol.symbol)
@@ -31,7 +30,6 @@ trait StockImporterMongoComponentImpl extends StockImporterComponent {
 				stockQuote.symOID = sym.mongoOID.get
 				sqCol += stockQuote
 			})
-			db.requestDone()
 			number 
 		}
 		

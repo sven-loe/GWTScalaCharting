@@ -7,13 +7,12 @@ import gwt.test.entities.mongo._
 
 trait SymbolImporterMongoComponent extends SymbolImporterComponent {
 
+  @MongoTransaction
   @Logging
   class SymbolImporterImpl(val context: ComponentContext) extends SymbolImporter with ObjectConverter {
 		
 	  override def storeSymbols(symbols: List[gwt.test.entities.jpa.Symbol]) : Long = {
-		val db = context.getStockQuotesDB
 		var number = 0
-		db.requestStart()
 		val symCol = context.getSymCollection
 		symbols.foreach(sym => {
 			val symbolQuery = Symbol where (Symbol.symbol is sym.symbol)
@@ -29,7 +28,6 @@ trait SymbolImporterMongoComponent extends SymbolImporterComponent {
 			}
 			number += 1
 		})		
-		db.requestDone()
 		number
 	  }
 	}
