@@ -19,6 +19,7 @@ import gwt.test.components._
 
 object DbObject {  		
    private val context = new ComponentContext("jpa", true)
-   val factory = new ComponentFactory(context)
+//   val factory = new JpaComponentFactory(context)
+   val factory = new MongoComponentFactory(context)
    
 } 

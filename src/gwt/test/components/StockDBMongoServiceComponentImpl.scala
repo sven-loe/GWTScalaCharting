@@ -11,7 +11,7 @@ trait StockDBMongoServiceComponentImpl extends StockDBServiceComponent  {
 
   @MongoTransaction
   @Logging  
-  class StockDBMongoServiceImpl(val context: ComponentContext) extends StockDBService with ObjectConverter {
+  class StockDBServiceImpl(val context: ComponentContext) extends StockDBService with ObjectConverter {
 	  
 	  def getCurrentStockQuote(symbol: String) : gwt.test.client.StockQuote = {
 			val symCol = context.getSymCollection

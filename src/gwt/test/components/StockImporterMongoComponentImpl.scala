@@ -24,7 +24,9 @@ trait StockImporterMongoComponentImpl extends StockImporterComponent {
 			val sqCol = context.getSQCollection
 			val sqQuery = StockQuote where (StockQuote.symOID is sym.mongoOID.get)
 			val sqResult = sqQuery in sqCol
-			sqResult.drop
+			sqResult.foreach(mongoSQ => {
+				sqCol -= mongoSQ
+			})
 			quotes.foreach(jpaSQ => {
 				val stockQuote = getMongoStockQuote(jpaSQ)
 				stockQuote.symOID = sym.mongoOID.get
