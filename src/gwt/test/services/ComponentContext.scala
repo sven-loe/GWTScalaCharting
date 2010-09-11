@@ -29,7 +29,7 @@ class ComponentContext() {
 	private val threadLocal = new ThreadLocal[EntityManager]
 	private var entityManagerFactory: EntityManagerFactory = null
 	private val lock: AnyRef = new Object
-	private val mongo = new Mongo
+	private val mongo = new Mongo( "127.0.0.1" , 27017 )
 	private val tlStockQuotesDB = new ThreadLocal[DB]	
  
 	def this(emfName: String, enhanceEntities: Boolean) = {	  

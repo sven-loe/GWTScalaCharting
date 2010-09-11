@@ -18,8 +18,9 @@ import javax.persistence.Persistence;
 import gwt.test.components._
 
 object DbObject {  		
-   private val context = new ComponentContext("jpa", true)
+//   private val context = new ComponentContext("jpa", true)
+	private val context = new ComponentContext(null, false)
 //   val factory = new JpaComponentFactory(context)
    val factory = new MongoComponentFactory(context)
-   
+      
 } 

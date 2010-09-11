@@ -21,6 +21,7 @@ import gwt.test.client.StockQuote;
 import gwt.test.servlet.JFreeChartServlet;
 import gwt.test.services.DbObject;
 import java.util.Date;
+import java.util.ArrayList
 
 class ChartingServiceImpl extends RemoteServiceServlet with ChartingService {  
     
@@ -41,7 +42,12 @@ class ChartingServiceImpl extends RemoteServiceServlet with ChartingService {
   
   override def getSymbols() : java.util.List[gwt.test.client.Symbol] = {
     val symbols = DbObject.factory.stockDBService.getSymbols
+    //GWT requires a real java list
+    val javaSymbols = new ArrayList[gwt.test.client.Symbol]
+    for(i <- 0 until symbols.size) {
+    	javaSymbols.add(symbols.get(i))
+    }
     println("Number of symbols: "+ symbols.size)
-    symbols
+    javaSymbols
   }
 }
