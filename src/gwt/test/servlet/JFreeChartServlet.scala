@@ -51,8 +51,8 @@ class JFreeChartServlet extends HttpServlet {
 		stockQuotes.foreach(sq => {
 			cal.setTime(sq.getTime) 
 			var day = new MyDay(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) +1, cal.get(Calendar.YEAR))
-			val adjLast = sq.getAdjLast.toLong
-			timeSeries.addOrUpdate(day, adjLast / 100)
+			val adjLast = sq.getAdjLast.toDouble			
+			timeSeries.addOrUpdate(day, adjLast)
 		})
 		start = System.currentTimeMillis
 		val xyDataset = new TimeSeriesCollection(timeSeries)

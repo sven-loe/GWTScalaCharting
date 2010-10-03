@@ -56,7 +56,7 @@ trait StockImporterComponent {
 	  })	  
 	  return quotes;
 	}
- 
+
 	def storeStockHistory(quotes: List[StockQuote]) : Long
  
 	def updateStockHistory(quotes: List[StockQuote]) : Long

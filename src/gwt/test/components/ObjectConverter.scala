@@ -19,14 +19,23 @@ import java.util.Calendar
 import java.util.Date
  
 trait ObjectConverter {
+	
+	private def divString(value: Long) : String = {
+		val valStr = value.toString
+		val dollars = valStr.substring(0, valStr.length-2)
+		val cents = valStr.substring(valStr.length-2)
+		val ret = dollars + "." + cents
+		ret
+	}
+	
 	def getGwtStockQuote(stockQuote: StockQuote) : gwt.test.client.StockQuote = {
 	  val gwtStockQuote = new gwt.test.client.StockQuote
-	  gwtStockQuote.setAdjLast((stockQuote.adjLast / 100).toString)
+	  gwtStockQuote.setAdjLast(divString(stockQuote.adjLast))
 	  gwtStockQuote.setCurrency(stockQuote.currency)
-	  gwtStockQuote.setDayHigh((stockQuote.dayHigh / 100).toString)
-	  gwtStockQuote.setDayLow((stockQuote.dayLow / 100).toString)
+	  gwtStockQuote.setDayHigh(divString(stockQuote.dayHigh))
+	  gwtStockQuote.setDayLow(divString(stockQuote.dayLow))
 	  gwtStockQuote.setId(stockQuote.id)
-	  gwtStockQuote.setLast((stockQuote.last / 100).toString)
+	  gwtStockQuote.setLast(divString(stockQuote.last))
 	  gwtStockQuote.setName(stockQuote.symbol.name)
       gwtStockQuote.setSymbol(stockQuote.symbol.symbol)
       gwtStockQuote.setTime(new Date(stockQuote.time.getTime))
@@ -36,11 +45,11 @@ trait ObjectConverter {
   
 	def getGwtStockQuote(stockQuote: gwt.test.entities.mongo.StockQuote) : gwt.test.client.StockQuote = {
 	  val gwtStockQuote = new gwt.test.client.StockQuote
-	  gwtStockQuote.setAdjLast((stockQuote.adjLast / 100).toString)
+	  gwtStockQuote.setAdjLast(divString(stockQuote.adjLast))
 	  gwtStockQuote.setCurrency(stockQuote.currency)
-	  gwtStockQuote.setDayHigh((stockQuote.dayHigh / 100).toString)
-	  gwtStockQuote.setDayLow((stockQuote.dayLow / 100).toString)	  
-	  gwtStockQuote.setLast((stockQuote.last / 100).toString)
+	  gwtStockQuote.setDayHigh(divString(stockQuote.dayHigh))
+	  gwtStockQuote.setDayLow(divString(stockQuote.dayLow))	  
+	  gwtStockQuote.setLast(divString(stockQuote.last))
 //	  gwtStockQuote.setName(stockQuote.symbol.name)
 //      gwtStockQuote.setSymbol(stockQuote.symbol.symbol)
       gwtStockQuote.setTime(new Date(stockQuote.time.getTime))

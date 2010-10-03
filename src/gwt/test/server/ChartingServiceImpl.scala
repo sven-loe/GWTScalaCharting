@@ -33,7 +33,7 @@ class ChartingServiceImpl extends RemoteServiceServlet with ChartingService {
     val jpaSq = DbObject.factory.stockDBService.getCurrentStockQuote(symbol)
     jpaSq    
   }
-  
+   
   override def importStockQuotes(symbol: String) : java.lang.Long = {
     val stockQuotes = DbObject.factory.stockImporter.importStockHistory(symbol)
     val stockQuoteNumber = DbObject.factory.stockImporter.storeStockHistory(stockQuotes)
