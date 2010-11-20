@@ -1,2 +1,2 @@
-war/gwtcharting/*
-war/WEB-INF/classes/*
+war/gwtcharting/**
+war/WEB-INF/classes/**
