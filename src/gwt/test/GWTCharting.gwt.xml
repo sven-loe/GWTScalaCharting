@@ -3,13 +3,19 @@
 <module rename-to='gwtcharting'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
-
+  
+  <!-- Inherit activity lib -->
+  <inherits name='com.google.gwt.activity.Activity'/>
+  <!-- Inherit place lib -->
+  <inherits name='com.google.gwt.place.Place'/>
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
   <!-- any one of the following lines.                            -->
   <inherits name='com.google.gwt.user.theme.standard.Standard'/>
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
+  <!-- Inherit GChart lib -->
+  <inherits name='com.googlecode.gchart.GChart'/>
 
   <!-- Other module inherits                                      -->
 
@@ -18,5 +24,10 @@
   
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>  
+  
+    <!-- Use ClientFactoryImpl by default -->
+    <replace-with class="gwt.test.client.ClientFactoryImpl">
+    	<when-type-is class="gwt.test.client.ClientFactory"/>
+    </replace-with>
   
 </module>

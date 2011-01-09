@@ -22,6 +22,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("chart")
 public interface ChartingService extends RemoteService {
 	String getChart(String symbol, TimeFrame timeFrame);
+	ChartData getChartData(ChartDataParams chartDataParams);
 	StockQuote getLastStockQuote(String symbol);
 	Long importStockQuotes(String symbol);
 	List<Symbol> getSymbols();

@@ -23,5 +23,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/mongo-2.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/mongo-scala-driver_2.8.0-0.8.2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gchart.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

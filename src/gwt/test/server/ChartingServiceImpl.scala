@@ -22,11 +22,17 @@ import gwt.test.servlet.JFreeChartServlet;
 import gwt.test.services.DbObject;
 import java.util.Date;
 import java.util.ArrayList
+import gwt.test.client.ChartDataParams
 
 class ChartingServiceImpl extends RemoteServiceServlet with ChartingService {  
     
   override def getChart(symbol: String, timeFrame: TimeFrame) : String = {    
     return "<img style=\"border: 0;\" src=\"./gwtcharting/jFreeChart?" + JFreeChartServlet.PARAMETER_SYMBOL + "=" + symbol + "&" + JFreeChartServlet.PARAMETER_TIMEFRAME + "=" + timeFrame.getTimeFrame() + "\" " + "/>";
+  }
+  
+  override def getChartData(chartDataParams: gwt.test.client.ChartDataParams) : gwt.test.client.ChartData = {
+	 val chartData = new gwt.test.client.ChartData(null, null, null, null, null)
+	 chartData
   }
   
   override def getLastStockQuote(symbol: String) : StockQuote = {

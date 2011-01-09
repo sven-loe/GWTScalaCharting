@@ -32,4 +32,9 @@ public enum TimeFrame {
 	public String getTimeFrame() {
 		return timeFrame;
 	} 
+	
+	@Override
+	public String toString() {
+		return timeFrame;
+	}
 }
