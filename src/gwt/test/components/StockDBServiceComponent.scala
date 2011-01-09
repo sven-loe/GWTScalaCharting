@@ -26,6 +26,6 @@ trait StockDBServiceComponent {
    
 	  def getStockHistory(symbol: String) : List[gwt.test.client.StockQuote]
    
-	  def getSymbols() : java.util.List[gwt.test.client.Symbol]
+	  def getSymbols() : List[gwt.test.client.Symbol]
 	}
 }

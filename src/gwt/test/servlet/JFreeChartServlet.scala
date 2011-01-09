@@ -37,14 +37,6 @@ class JFreeChartServlet extends HttpServlet {
 		val timeSeries = new TimeSeries(symbol, myDay.getClass)
 		val cal = Calendar.getInstance()
   
-//		for(i <- 1 to 4) {				  
-//		  var day = new MyDay(cal.get(Calendar.DAY_OF_MONTH) - i,cal.get(Calendar.MONTH) +1, cal.get(Calendar.YEAR))
-//		  if("RDY" == symbol) {
-//		    timeSeries.addOrUpdate(day, 5 - i);
-//		  } else { 
-//		    timeSeries.addOrUpdate(day, i);
-//          }		    
-//		} 
 		var start = System.currentTimeMillis
 		val stockQuotes = DbObject.factory.stockDBService.getStockHistory(symbol)
 		println("Get history from DB: "+(System.currentTimeMillis-start)+" ms");

@@ -47,7 +47,7 @@ trait StockDBMongoServiceComponentImpl extends StockDBServiceComponent  {
 			gwtStockQuotes.toList
 	  }
    
-	  def getSymbols() : java.util.List[gwt.test.client.Symbol] = {
+	  def getSymbols() : List[gwt.test.client.Symbol] = {
 			val symCol = context.getSymCollection			
 			val symbolQuery = Symbol sortBy Symbol.symbol.descending 
 			val symbolResult = symbolQuery in symCol
@@ -56,7 +56,7 @@ trait StockDBMongoServiceComponentImpl extends StockDBServiceComponent  {
 				val gwtSymbol = getGwtSymbol(sym)
 				gwtSymbols += gwtSymbol
 			})
-			gwtSymbols
+			gwtSymbols.toList
 	  }
 	}
 }

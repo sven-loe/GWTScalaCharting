@@ -17,6 +17,9 @@ package gwt.test.components
 import gwt.test.entities.jpa._
 import java.util.Calendar
 import java.util.Date
+import scala.collection.JavaConversions._
+
+
  
 trait ObjectConverter {
 	
@@ -102,11 +105,14 @@ trait ObjectConverter {
 		mongoSQ
 	}
 	
-	def getMongoSymbol(jpaSymbol: Symbol) :gwt.test.entities.mongo.Symbol = {
+	def getMongoSymbol(jpaSymbol: Symbol) : gwt.test.entities.mongo.Symbol = {
 		val mongoSym = new gwt.test.entities.mongo.Symbol
 		mongoSym.symbol = jpaSymbol.symbol
 		mongoSym.name = jpaSymbol.name
 		mongoSym.value = jpaSymbol.value
 		mongoSym
 	}
+	
 }
+
+

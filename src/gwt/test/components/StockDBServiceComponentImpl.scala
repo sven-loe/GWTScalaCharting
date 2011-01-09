@@ -71,16 +71,16 @@ trait StockDBServiceComponentImpl extends StockDBServiceComponent with ObjectCon
 	    }
 	  }
    
-	  def getSymbols() : java.util.List[gwt.test.client.Symbol] = {
+	  def getSymbols() : List[gwt.test.client.Symbol] = {
 	    val em = context.getEntityManager()
 	    val sQuery = new SQuery(em.createQuery("select s from Symbol s order by s.symbol desc"))
 	    val symbols = sQuery.getResultList[Symbol]
-        val mySymbols = new java.util.ArrayList[gwt.test.client.Symbol]
+        val mySymbols = new ListBuffer[gwt.test.client.Symbol]
         symbols.foreach(symbol => {
         	val mySymbol = getGwtSymbol(symbol)
-            mySymbols.add(mySymbol)
+            mySymbols += mySymbol
         })        
-    	mySymbols
+    	mySymbols.toList
 	  }
   }
   
