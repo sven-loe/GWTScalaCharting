@@ -1,11 +1,23 @@
 package gwt.test.client;
 
-public class ChartDataParams {
+import java.io.Serializable;
+
+public class ChartDataParams implements Serializable {
+
+	private static final long serialVersionUID = -6883714568522128224L;
+	
 	private final String symbol;
 	private final TimeFrame timeFrame;
 	private final Integer xSize;
 	private final Integer ySize;
 
+	public ChartDataParams() {
+		this.symbol = "";
+		this.timeFrame = TimeFrame.All;
+		this.xSize = 0;
+		this.ySize = 0;
+	}
+	
 	public ChartDataParams(String symbol, TimeFrame timeFrame, Integer xSize,
 			Integer ySize) {
 		super();

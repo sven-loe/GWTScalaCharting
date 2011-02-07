@@ -24,10 +24,6 @@
   
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>  
-  
-    <!-- Use ClientFactoryImpl by default -->
-    <replace-with class="gwt.test.client.ClientFactoryImpl">
-    	<when-type-is class="gwt.test.client.ClientFactory"/>
-    </replace-with>
+    
   
 </module>
