@@ -31,6 +31,7 @@ public class StockQuotePresenter implements Presenter {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = display;
+		this.bind();
 	}
 
 	
