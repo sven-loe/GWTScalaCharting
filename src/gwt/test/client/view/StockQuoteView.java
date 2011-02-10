@@ -13,17 +13,16 @@ import gwt.test.client.presenter.StockQuotePresenter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -61,6 +60,7 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 	private final DockPanel dock = new DockPanel();
 	private final Button showButton;
 	private final Button importButton;
+	private final Map<String,TimeFrame> timeFrameMap = new HashMap<String,TimeFrame>();
 	
 	
 	public StockQuoteView(HandlerManager eventBus) {		
@@ -72,14 +72,24 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 		this.symbol = new SuggestBox(symbolOracle);
 		this.name = new SuggestBox(nameOracle);		
 		
+		this.timeFrameMap.put(TimeFrame.All.toString(), TimeFrame.All);
+		this.timeFrameMap.put(TimeFrame.Days14.toString(), TimeFrame.Days14);
+		this.timeFrameMap.put(TimeFrame.Month1.toString(), TimeFrame.Month1);
+		this.timeFrameMap.put(TimeFrame.Months2.toString(), TimeFrame.Months2);
+		this.timeFrameMap.put(TimeFrame.Months6.toString(), TimeFrame.Months6);
+		this.timeFrameMap.put(TimeFrame.Year1.toString(), TimeFrame.Year1);
+		this.timeFrameMap.put(TimeFrame.Years2.toString(), TimeFrame.Years2);
+		this.timeFrameMap.put(TimeFrame.Years5.toString(), TimeFrame.Years5);
+		
 		this.timeframe = new ListBox();
-		timeframe.addItem("All", "All");
-		timeframe.addItem("5 Years", "5Y");
-		timeframe.addItem("2 Years", "2Y");
-		timeframe.addItem("1 Year", "1Y");
-		timeframe.addItem("6 Months", "6M");
-		timeframe.addItem("1 Month", "1M");
-		timeframe.addItem("14 Days", "14D");
+		timeframe.addItem("All", TimeFrame.All.toString());
+		timeframe.addItem("5 Years", TimeFrame.Years5.toString());
+		timeframe.addItem("2 Years", TimeFrame.Years2.toString());
+		timeframe.addItem("1 Year", TimeFrame.Year1.toString());
+		timeframe.addItem("6 Months", TimeFrame.Months6.toString());
+		timeframe.addItem("2 Months", TimeFrame.Months2.toString());
+		timeframe.addItem("1 Month", TimeFrame.Month1.toString());
+		timeframe.addItem("14 Days", TimeFrame.Days14.toString());
 		
 		showButton = new Button("Show");
 		showButton.getElement().setId(StockQuotePresenter.Display.SHOW_BUTTON_ID);
@@ -372,12 +382,12 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 	
 	@Override
 	public String getSymbol() {
-		return this.getSymbol();
+		return this.symbol.getValue();
 	}
 	
 	@Override
 	public TimeFrame getTimeFrame() {
-		TimeFrame myTimeFrame = TimeFrame.valueOf(this.timeframe.getItemText(this.timeframe.getSelectedIndex()));
+		TimeFrame myTimeFrame = this.timeFrameMap.get(this.timeframe.getValue(this.timeframe.getSelectedIndex()));
 		return myTimeFrame;
 	}
 

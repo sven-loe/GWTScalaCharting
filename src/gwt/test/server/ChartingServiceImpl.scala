@@ -28,7 +28,7 @@ import gwt.test.components.ObjectConversion._
 class ChartingServiceImpl extends RemoteServiceServlet with ChartingService {  
     
   override def getChart(symbol: String, timeFrame: TimeFrame) : String = {    
-    return "<img style=\"border: 0;\" src=\"./gwtcharting/jFreeChart?" + JFreeChartServlet.PARAMETER_SYMBOL + "=" + symbol + "&" + JFreeChartServlet.PARAMETER_TIMEFRAME + "=" + timeFrame.getTimeFrame() + "\" " + "/>";
+    return "<img style=\"border: 0;\" src=\"./gwtcharting/jFreeChart?" + JFreeChartServlet.PARAMETER_SYMBOL + "=" + symbol + "&" + JFreeChartServlet.PARAMETER_TIMEFRAME + "=" + timeFrame.toString + "\" " + "/>";
   }
   
   override def getChartData(chartDataParams: gwt.test.client.ChartDataParams) : gwt.test.client.ChartData = {

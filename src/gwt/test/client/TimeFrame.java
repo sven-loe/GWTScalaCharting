@@ -21,17 +21,14 @@ public enum TimeFrame {
 	Year1("1Year"),
 	Months6("6Months"),
 	Months2("2Months"),
-	Month1("1Month");
+	Month1("1Month"),
+	Days14("14Days");
 	
 	private final String timeFrame;
 	
 	TimeFrame(String timeFrame) {
 		this.timeFrame = timeFrame;
-	}
-	
-	public String getTimeFrame() {
-		return timeFrame;
-	} 
+	}	 
 	
 	@Override
 	public String toString() {

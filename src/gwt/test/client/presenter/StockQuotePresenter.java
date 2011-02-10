@@ -39,7 +39,8 @@ public class StockQuotePresenter implements Presenter {
 		this.display.getImportButton().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				rpcService.importStockQuotes(display.getSymbol(), new AsyncCallback<Long>() {
+				String symbol = display.getSymbol();
+				rpcService.importStockQuotes(symbol, new AsyncCallback<Long>() {
 					public void onFailure(Throwable caught) {
 						// Show the RPC error message to the user
 						display.showDialogBox("Remote Procedure Call - Failure", "serverResponseLabelError", Display.SERVER_ERROR);
@@ -54,7 +55,8 @@ public class StockQuotePresenter implements Presenter {
 		this.display.getShowButton().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				rpcService.getLastStockQuote(display.getSymbol(), new AsyncCallback<StockQuote>() {
+				String symbol = display.getSymbol();
+				rpcService.getLastStockQuote(symbol, new AsyncCallback<StockQuote>() {
 					public void onFailure(Throwable caught) {
 						display.showDialogBox("Remote Procedure Call - Failure", "serverResponseLabelError", Display.SERVER_ERROR);
 					}
@@ -65,7 +67,8 @@ public class StockQuotePresenter implements Presenter {
 					}
 
 				});
-				rpcService.getChartData(display.getChartDataParams(), new AsyncCallback<ChartData>() {
+				ChartDataParams chartDataParams = display.getChartDataParams();
+				rpcService.getChartData(chartDataParams, new AsyncCallback<ChartData>() {
 					@Override
 					public void onFailure(Throwable caught) {
 						display.showDialogBox("Remote Procedure Call - Failure", "serverResponseLabelError", Display.SERVER_ERROR);
