@@ -6,10 +6,10 @@ public class ChartDataParams implements Serializable {
 
 	private static final long serialVersionUID = -6883714568522128224L;
 	
-	private final String symbol;
-	private final TimeFrame timeFrame;
-	private final Integer xSize;
-	private final Integer ySize;
+	private String symbol;
+	private TimeFrame timeFrame;
+	private Integer xSize;
+	private Integer ySize;
 
 	public ChartDataParams() {
 		this.symbol = "";

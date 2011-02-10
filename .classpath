@@ -16,6 +16,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/log4j.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/scalatest-1.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/asm-3.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/datanucleus-enhancer-1.1.4.jar"/>
 	<classpathentry kind="src" path=".apt_generated">
 		<attributes>
 			<attribute name="optional" value="true"/>

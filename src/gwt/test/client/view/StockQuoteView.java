@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -227,21 +229,21 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 	public void showDialogBox(String headerText, String style, String content) {
 		// Create the popup dialog box		
 		final DialogBox dialogBox = new DialogBox();
-		dialogBox.setText("Remote Procedure Call");
+		dialogBox.setText(headerText);
 		dialogBox.setAnimationEnabled(true);
 		final Label textToServerLabel = new Label();
 		final Button closeButton = new Button("Close");
 		closeButton.getElement().setId("closeButton");
 		final VerticalPanel dialogVPanel = new VerticalPanel();
-		dialogVPanel.addStyleName("dialogVPanel");
-		dialogVPanel.add(new HTML("<b>Error message from server:</b>"));
+		dialogVPanel.addStyleName(style);
+		dialogVPanel.add(new HTML(content));
 		dialogVPanel.add(textToServerLabel);
 		dialogVPanel.add(closeButton);
 		dialogBox.setWidget(dialogVPanel);
 		dialogBox.center();
-		dialogBox.addCloseHandler(new CloseHandler<PopupPanel>() {
+		closeButton.addClickHandler(new ClickHandler() {
 			@Override
-			public void onClose(CloseEvent<PopupPanel> event) {
+			public void onClick(ClickEvent event) {
 				dialogBox.hide();
 			}
 		});

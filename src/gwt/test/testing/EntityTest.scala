@@ -47,10 +47,10 @@ class EntityTest  {
 //    val consoleAppender = new ConsoleAppender( layout );
 //    logger.addAppender( consoleAppender );
 
-    val enhancer = JDOHelper.getEnhancer()
-	enhancer.setVerbose(true);
-	enhancer.addPersistenceUnit(puName);
-	enhancer.enhance();
+//    val enhancer = JDOHelper.getEnhancer()
+//	enhancer.setVerbose(true);
+//	enhancer.addPersistenceUnit(puName);
+//	enhancer.enhance();
   }
  
   @Test def symbolImporterTest() : Unit = {

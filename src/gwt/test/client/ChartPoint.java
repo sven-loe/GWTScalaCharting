@@ -1,8 +1,12 @@
 package gwt.test.client;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ChartPoint {
+public class ChartPoint implements Serializable {
+
+	private static final long serialVersionUID = -1227739128642491983L;
+	
 	private final double value;
 	private final Date time;
 

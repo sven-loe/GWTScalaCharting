@@ -15,7 +15,7 @@ trait StockImporterMongoComponentImpl extends StockImporterComponent {
 		}
 		
 		override def updateStockHistory(quotes: List[gwt.test.entities.jpa.StockQuote]) : Long = {
-			var number = 0
+			var number = 0L
 			val symCol = context.getSymCollection
 			if(quotes == null || quotes.head == null || quotes.head.symbol == null) return number
 			val symbolQuery = Symbol where (Symbol.symbol is quotes.head.symbol.symbol)
@@ -31,6 +31,7 @@ trait StockImporterMongoComponentImpl extends StockImporterComponent {
 				val stockQuote = getMongoStockQuote(jpaSQ)
 				stockQuote.symOID = sym.mongoOID.get
 				sqCol += stockQuote
+				number += 1
 			})
 			number 
 		}
