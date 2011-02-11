@@ -52,14 +52,14 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 	private final SuggestBox name;
 	private final ListBox timeframe;	
 	private final MultiWordSuggestOracle nameOracle = new MultiWordSuggestOracle();
-	private final MultiWordSuggestOracle symbolOracle = new MultiWordSuggestOracle();
-	private Widget contents;	
+	private final MultiWordSuggestOracle symbolOracle = new MultiWordSuggestOracle();		
 	private ChartData chartData;	
 	private int xChartSize = 1000;
 	private int yChartSize = 700;
 	private final StockQuoteDisplay stockQuoteDisplay;	
 	private Presenter presenter;
 	private final DockPanel dock = new DockPanel();
+	private Widget centerWidget;
 	private final Button showButton;
 	private final Button importButton;
 	private final Map<String,TimeFrame> timeFrameMap = new HashMap<String,TimeFrame>();
@@ -158,19 +158,13 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 		// DockPanel.NORTH);
 		// dock.add(new HTML("This is the <i>second</i> south component"),
 		// DockPanel.SOUTH);
-
-		// Add scrollable text in the center
-		contents = new HTML("This is a <code>ScrollPanel</code> contained at "
-				+ "the center of a <code>DockPanel</code>.  " + "By putting some fairly large contents "
-				+ "in the middle and setting its size explicitly, it becomes a "
-				+ "scrollable area within the page, but without requiring the use of " + "an IFRAME.<br><br>"
-				+ "Here's quite a bit more meaningless text that will serve primarily "
-				+ "to make this thing scroll off the bottom of its visible area.  "
-				+ "Otherwise, you might have to make it really, really small in order "
-				+ "to see the nifty scroll bars!");
-		ScrollPanel scroller = new ScrollPanel(contents);
+		
+		GChart chart = new GChart();
+		chart.setChartTitle("Empty Chart");
+		chart.setChartSize(this.xChartSize, this.yChartSize);
+		this.centerWidget = chart.asWidget();
 		// scroller.setSize("400px", "100px");
-		dock.add(scroller, DockPanel.CENTER);
+		dock.add(this.centerWidget, DockPanel.CENTER);
 		
 		//add listeners
 		addSuggestBoxListeners();
@@ -195,7 +189,7 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 	    chart.getCurve().setLegendLabel(this.chartData.getLegendLabel());
 	    chart.getXAxis().setAxisLabel(this.chartData.getxAxisTitle());
 	    chart.getYAxis().setAxisLabel(this.chartData.getyAxisTitle());
-	    this.contents = chart.asWidget();
+	    this.centerWidget = chart.asWidget();	    	    
 	}
 	
 	private void addSuggestBoxListeners() {
@@ -379,7 +373,7 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 	@Override
 	public void setChartLink(String link) {
 		HTML html = new HTML(link);
-		this.contents = html;
+		this.dock.add(html, DockPanel.CENTER);
 	}	
 	
 	@Override

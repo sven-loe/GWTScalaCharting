@@ -7,9 +7,13 @@ public class ChartPoint implements Serializable {
 
 	private static final long serialVersionUID = -1227739128642491983L;
 	
-	private final double value;
-	private final Date time;
+	private double value;
+	private Date time;
 
+	public ChartPoint() {
+		
+	}
+	
 	public ChartPoint(double value, Date time) {
 		this.value = value;
 		if (time == null) {

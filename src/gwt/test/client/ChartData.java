@@ -34,31 +34,21 @@ public class ChartData implements Serializable {
 	public List<ChartPoint> getPoints() {
 		return points;
 	}
-	public void setPoints(List<ChartPoint> points) {
-		this.points = points;
-	}
+	
 	public String getTitle() {
 		return title;
 	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
+	
 	public String getLegendLabel() {
 		return legendLabel;
 	}
-	public void setLegendLabel(String legendLabel) {
-		this.legendLabel = legendLabel;
-	}
+	
 	public String getxAxisTitle() {
 		return xAxisTitle;
 	}
-	public void setxAxisTitle(String xAxisTitle) {
-		this.xAxisTitle = xAxisTitle;
-	}
+	
 	public String getyAxisTitle() {
 		return yAxisTitle;
 	}
-	public void setyAxisTitle(String yAxisTitle) {
-		this.yAxisTitle = yAxisTitle;
-	}
+	
 }
