@@ -118,8 +118,6 @@ public class StockQuotePresenter implements Presenter {
 
 		void setChartData(ChartData chartData);
 
-		void setPresenter(Presenter presenter);
-
 		String getSymbol();
 
 		TimeFrame getTimeFrame();

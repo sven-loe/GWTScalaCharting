@@ -18,11 +18,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -30,18 +29,16 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.gchart.client.GChart;
 import com.googlecode.gchart.client.GChart.SymbolType;
 
@@ -56,10 +53,9 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 	private ChartData chartData;	
 	private int xChartSize = 1000;
 	private int yChartSize = 700;
-	private final StockQuoteDisplay stockQuoteDisplay;	
-	private Presenter presenter;
-	private final DockPanel dock = new DockPanel();
-	private Widget centerWidget;
+	private final StockQuoteDisplay stockQuoteDisplay;		
+	private final DockLayoutPanel dock = new DockLayoutPanel(Style.Unit.PX);
+	private GChart centerChart;
 	private final Button showButton;
 	private final Button importButton;
 	private final Map<String,TimeFrame> timeFrameMap = new HashMap<String,TimeFrame>();
@@ -140,18 +136,18 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 
 				
 		// Allow 4 pixels of spacing between each cell
-		dock.setSpacing(4);
+//		dock.setSpacing(4);
 
 		/*
 		 * Center each component horizontally within each cell for each
 		 * component added after this call. A shortcut to calling
 		 * dock.setCellHorizontalAlignment() for each cell.
 		 */
-		dock.setHorizontalAlignment(DockPanel.ALIGN_CENTER);
+//		dock.setHorizontalAlignment(DockPanel.ALIGN_CENTER);
 
 		// Add text widgets all around
-		dock.add(vPanel1, DockPanel.NORTH);
-		dock.add(vPanel2, DockPanel.SOUTH);
+		dock.addNorth(vPanel1, 0);
+		dock.addSouth(vPanel2, 0);
 		// dock.add(new HTML("This is the east component"), DockPanel.EAST);
 		// dock.add(new HTML("This is the west component"), DockPanel.WEST);
 		// dock.add(new HTML("This is the <i>second</i> north component"),
@@ -159,12 +155,10 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 		// dock.add(new HTML("This is the <i>second</i> south component"),
 		// DockPanel.SOUTH);
 		
-		GChart chart = new GChart();
-		chart.setChartTitle("Empty Chart");
-		chart.setChartSize(this.xChartSize, this.yChartSize);
-		this.centerWidget = chart.asWidget();
+		
+		this.centerChart = createGChart();		
 		// scroller.setSize("400px", "100px");
-		dock.add(this.centerWidget, DockPanel.CENTER);
+		dock.addEast(this.centerChart.asWidget(), 0);
 		
 		//add listeners
 		addSuggestBoxListeners();
@@ -174,10 +168,21 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 		
 	}
 	
+	private GChart createGChart() {
+		GChart chart = new GChart(this.xChartSize, this.yChartSize);
+		chart.setChartTitle("Empty Chart");		
+		chart.addCurve();
+		for (int i = 0; i < 10; i++) 
+	        chart.getCurve().addPoint(i,i*i);
+		chart.update();
+		return chart;
+	}
+	
 	private void updateChart() {
-		GChart chart = new GChart();
+		GChart chart = this.centerChart;
 		chart.setChartTitle(this.chartData.getTitle());
 		chart.setChartSize(this.xChartSize, this.yChartSize);
+		chart.clearCurves();
 		chart.addCurve();
 		chart.getCurve().getSymbol().setSymbolType(SymbolType.LINE);
 	    chart.getCurve().getSymbol().setHeight(0);
@@ -189,7 +194,7 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 	    chart.getCurve().setLegendLabel(this.chartData.getLegendLabel());
 	    chart.getXAxis().setAxisLabel(this.chartData.getxAxisTitle());
 	    chart.getYAxis().setAxisLabel(this.chartData.getyAxisTitle());
-	    this.centerWidget = chart.asWidget();	    	    
+	    chart.update();
 	}
 	
 	private void addSuggestBoxListeners() {
@@ -347,15 +352,9 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 	}
 
 	@Override
-	public void setPresenter(Presenter presenter) {
-		this.presenter = presenter;
-	}
-
-	@Override
 	public void setStockQuote(StockQuote stockQuote) {
 		this.stockQuoteDisplay.setStockQuote(stockQuote);		
 	}
-	
 	
 	@Override
 	public void setSymbols(List<Symbol> symbols) {		
@@ -373,7 +372,7 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 	@Override
 	public void setChartLink(String link) {
 		HTML html = new HTML(link);
-		this.dock.add(html, DockPanel.CENTER);
+		this.dock.addEast(html.asWidget(), 0);
 	}	
 	
 	@Override
