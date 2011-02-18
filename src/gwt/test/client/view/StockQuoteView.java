@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jfree.ui.tabbedui.VerticalLayout;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -54,7 +56,7 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 	private int xChartSize = 1000;
 	private int yChartSize = 700;
 	private final StockQuoteDisplay stockQuoteDisplay;		
-	private final DockLayoutPanel dock = new DockLayoutPanel(Style.Unit.PX);
+	private final DockLayoutPanel dock = new DockLayoutPanel(Style.Unit.EM);	
 	private GChart centerChart;
 	private final Button showButton;
 	private final Button importButton;
@@ -62,7 +64,7 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 	
 	
 	public StockQuoteView(HandlerManager eventBus) {		
-		super.initWidget(dock);
+		super.initWidget(this.dock);
 		
 		final Label nameLabel = new Label("Name:");
 		final Label symbolLabel = new Label("Symbol:");
@@ -134,44 +136,34 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 		vPanel2.add(hPanel4);
 		vPanel2.add(hPanel5);
 
-				
-		// Allow 4 pixels of spacing between each cell
-//		dock.setSpacing(4);
-
-		/*
-		 * Center each component horizontally within each cell for each
-		 * component added after this call. A shortcut to calling
-		 * dock.setCellHorizontalAlignment() for each cell.
-		 */
-//		dock.setHorizontalAlignment(DockPanel.ALIGN_CENTER);
-
 		// Add text widgets all around
-		dock.addNorth(vPanel1, 0);
-		dock.addSouth(vPanel2, 0);
-		// dock.add(new HTML("This is the east component"), DockPanel.EAST);
-		// dock.add(new HTML("This is the west component"), DockPanel.WEST);
-		// dock.add(new HTML("This is the <i>second</i> north component"),
-		// DockPanel.NORTH);
-		// dock.add(new HTML("This is the <i>second</i> south component"),
-		// DockPanel.SOUTH);
+		this.dock.addNorth(vPanel1, 5);
+		this.dock.addSouth(vPanel2, 5);		
 		
-		
+		this.dock.addEast(new HTML("East"), 5);
+		this.dock.addWest(new HTML("West"), 5);
 		this.centerChart = createGChart();		
 		// scroller.setSize("400px", "100px");
-		dock.addEast(this.centerChart.asWidget(), 0);
+		this.dock.add(this.centerChart.asWidget());		
+		
 		
 		//add listeners
 		addSuggestBoxListeners();
 		
 		//import symbols for suggestboxes
-		importSymbols();
+//		importSymbols();
+		
 		
 	}
 	
 	private GChart createGChart() {
-		GChart chart = new GChart(this.xChartSize, this.yChartSize);
+//		GChart chart = new GChart(this.xChartSize, this.yChartSize);
+		GChart chart = new GChart(150,150);
 		chart.setChartTitle("Empty Chart");		
 		chart.addCurve();
+		chart.getCurve().getSymbol().setHeight(0);
+		chart.getCurve().getSymbol().setWidth(0);
+		chart.getCurve().getSymbol().setSymbolType(SymbolType.LINE);
 		for (int i = 0; i < 10; i++) 
 	        chart.getCurve().addPoint(i,i*i);
 		chart.update();
