@@ -18,7 +18,7 @@ object ObjectConversion {
     val javaList = new java.util.ArrayList[gwt.test.client.ChartPoint]
     list.foreach(stockQuote => {
       if (stockQuote.getLast != null) {
-        val last = stockQuote.getLast.toDouble / 100
+        val last = stockQuote.getLast.toDouble
         val chartPoint = new ChartPoint(last, stockQuote.getTime)
         javaList.add(chartPoint)
       }

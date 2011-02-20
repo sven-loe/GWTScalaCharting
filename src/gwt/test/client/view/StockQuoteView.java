@@ -151,14 +151,13 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 		addSuggestBoxListeners();
 		
 		//import symbols for suggestboxes
-//		importSymbols();
+		importSymbols();
 		
 		
 	}
 	
 	private GChart createGChart() {
-//		GChart chart = new GChart(this.xChartSize, this.yChartSize);
-		GChart chart = new GChart(150,150);
+		GChart chart = new GChart(this.xChartSize, this.yChartSize);
 		chart.setChartTitle("Empty Chart");		
 		chart.addCurve();
 		chart.getCurve().getSymbol().setHeight(0);

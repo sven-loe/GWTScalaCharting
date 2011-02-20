@@ -33,9 +33,10 @@ class ChartingServiceImpl extends RemoteServiceServlet with ChartingService {
   
   override def getChartData(chartDataParams: gwt.test.client.ChartDataParams) : gwt.test.client.ChartData = {
 	 val stockQuotes = DbObject.factory.stockDBService.getStockHistory(chartDataParams.getSymbol)
-	 val javaStockQuotes : java.util.List[gwt.test.client.ChartPoint] = stockQuotes
+	 val filteredStockQuotes = DbObject.factory.stockDBService.filterStockHistory(chartDataParams, stockQuotes)
+	 val javaStockQuotes : java.util.List[gwt.test.client.ChartPoint] = filteredStockQuotes
 	 val stockQuote = stockQuotes.first
-	 val chartData = new gwt.test.client.ChartData(javaStockQuotes, stockQuote.getName, stockQuote.getName, "value", "time")
+	 val chartData = new gwt.test.client.ChartData(javaStockQuotes, stockQuote.getName, stockQuote.getName, "time", "value")
 	 chartData
   }
   
