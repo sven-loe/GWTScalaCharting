@@ -74,9 +74,10 @@ trait StockDBServiceComponent {
 	 	 	 	  filteredHistory = history.filter(_.getTime.after(cal.getTime))
 	 	 	  }
 	 	  }	 	  
+	 	   
 	 	  if(filteredHistory.length > chartDataParams.getxSize.intValue) {
 	 	 	val factor = filteredHistory.length.doubleValue / chartDataParams.getxSize.intValue.doubleValue
-	 	 	var counter = factor
+	 	 	var counter = 0.0
 	 	 	val myFilteredHistory = ListBuffer[gwt.test.client.StockQuote]()
 	 	 	for(i <- 0 until chartDataParams.getxSize.intValue) {
 	 	 		myFilteredHistory += filteredHistory(Math.round(counter).intValue)

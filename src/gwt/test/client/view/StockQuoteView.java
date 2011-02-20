@@ -173,6 +173,8 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 		GChart chart = this.centerChart;
 		chart.setChartTitle(this.chartData.getTitle());
 		chart.setChartSize(this.xChartSize, this.yChartSize);
+		chart.getXAxis().setTickLabelFormat("=(Date)dd-MM-yyyy");
+//		chart.getXAxis().setTickCount(this.xChartSize / 50);
 		chart.clearCurves();
 		chart.addCurve();
 		chart.getCurve().getSymbol().setSymbolType(SymbolType.LINE);
@@ -180,7 +182,7 @@ public class StockQuoteView extends Composite implements StockQuotePresenter.Dis
 	    chart.getCurve().getSymbol().setWidth(0);
 	    int xValues = 1;
 	    for(ChartPoint chartPoint: this.chartData.getPoints()) {
-	    	chart.getCurve().addPoint(xValues++, chartPoint.getValue());
+	    	chart.getCurve().addPoint(chartPoint.getTime().getTime(), chartPoint.getValue());
 	    }
 	    chart.getCurve().setLegendLabel(this.chartData.getLegendLabel());
 	    chart.getXAxis().setAxisLabel(this.chartData.getxAxisTitle());
