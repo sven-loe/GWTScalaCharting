@@ -194,10 +194,14 @@
 					<webResources>
 						<resource>
 							<!-- this is relative to the pom.xml directory -->
-							<directory>war/WEB-INF</directory>
+							<directory>war</directory>
+							<includes>
+								<include>**</include>
+							</includes>
 							<excludes>
-								<exclude>**/lib</exclude>
-								<exclude>**/classes</exclude>
+								<exclude>gwtcharting/**</exclude>
+								<exclude>WEB-INF/lib/**</exclude>
+								<exclude>WEB-INF/classes/**</exclude>
 							</excludes>
 						</resource>
 					</webResources>
